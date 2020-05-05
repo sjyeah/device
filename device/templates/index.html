@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设备管理</title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+</head>
+<body class=" dashboard"
+  data-admin-utc-offset="28800">
+
+<!-- Container -->
+<div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+<h1 id="site-name"><a href="/admin/">设备管理后台</a></h1>
+
+        </div>
+
+
+        <div id="user-tools">
+                欢迎，
+                <strong>admin</strong>.
+                    <a href="/">返回首页</a> /
+                <a href="/admin/password_change/">修改密码</a> /
+
+                <a href="/admin/logout/">注销</a>
+
+        </div>
+    </div>
+    <!-- END Header -->
+
+    <!-- Content -->
+    <div id="content" class="colMS">
+        <h1>站点管理</h1>
+<div id="content-main">
+        <div class="app-htgl module">
+        <table>
+        <caption>
+            <a href="/admin/htgl/" class="section" title="在应用程序 Htgl 中的模型">Htgl</a>
+        </caption>
+            <tr class="model-printer">
+                <th scope="row"><a href="/admin/htgl/printer/">打印机种类列表</a></th>
+                <td><a href="/admin/htgl/printer/add/" class="addlink">增加</a></td>
+                <td><a href="/admin/htgl/printer/" class="changelink">修改</a></td>
+            </tr>
+            <tr class="model-cartridge">
+                <th scope="row"><a href="/admin/htgl/cartridge/">硒鼓列表</a></th>
+                <td><a href="/admin/htgl/cartridge/add/" class="addlink">增加</a></td>
+                <td><a href="/admin/htgl/cartridge/" class="changelink">修改</a></td>
+            </tr>
+
+            <tr class="model-device">
+                <th scope="row"><a href="/admin/htgl/device/">设备列表</a></th>
+                <td><a href="/admin/htgl/device/add/" class="addlink">增加</a></td>
+                <td><a href="/admin/htgl/device/" class="changelink">修改</a></td>
+            </tr>
+
+        </table>
+        </div>
+</div>
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
