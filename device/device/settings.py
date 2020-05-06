@@ -81,7 +81,9 @@ DATABASES = {
         'USER': 'flyroot',
         'PASSWORD': 'asdfg123QWE)(*',
         'HOST': '121.43.223.78',
-        'PORT': '3306'
+        'PORT': '3306',
+        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
+        'AUTOCOMMIT': True
     }
 }
 
@@ -116,7 +118,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

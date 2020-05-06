@@ -19,8 +19,5 @@ from htgl import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-path('device/', views.device),
-    path('',views.index)
+    path('device/', views.device)
 ]
-
-

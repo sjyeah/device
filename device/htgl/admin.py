@@ -1,17 +1,21 @@
 from django.contrib import admin
-from .models import Cartridge, Device, Printer, sys, RecordApply
+from .models import Device, Printer, sys, RecordApply, Cartridge,RecordBorrow
 
 admin.site.site_header = '设备管理后台'
 admin.site.site_title = '设备管理'
 
 
 # Register your models here.
-class sysAdmin(admin.ModelAdmin):
-    list_display = ['id', 'typename', 'sort']
+class DeviceAdmin(admin.ModelAdmin):
+    list_display = ['id', 'model', 'brand', 'pic', 'sn', 'buytime', 'type']
+    list_filter = ['model']
+    search_fields = ['model']
     list_per_page = 20
 
 
-admin.site.register(sys, sysAdmin)
+class sysAdmin(admin.ModelAdmin):
+    list_display = ['id', 'typename', 'sort']
+    list_per_page = 20
 
 
 class CartridgeAdmin(admin.ModelAdmin):
@@ -21,27 +25,18 @@ class CartridgeAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 
-admin.site.register(Cartridge, CartridgeAdmin)
-
-
 class RecordApplyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'crid', 'amount', 'username','department','recordtime']
-    list_filter = ['username','department','crid']
-    search_fields = ['username','department']
+    list_display = ['id', 'crid', 'amount', 'username', 'department', 'recordtime']
+    list_filter = ['department', 'crid']
+    search_fields = ['username']
     list_per_page = 20
 
 
-admin.site.register(RecordApply, RecordApplyAdmin)
-
-
-class DeviceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'model', 'brand', 'pic', 'sn', 'buytime', 'type']
-    list_filter = ['model']
-    search_fields = ['model']
+class RecordBorrowAdmin(admin.ModelAdmin):
+    list_display = ['id', 'reason', 'stime', 'etime', 'devices', 'username', 'department', 'recordtime']
+    list_filter = ['department', 'username']
+    search_fields = ['username']
     list_per_page = 20
-
-
-admin.site.register(Device, DeviceAdmin)
 
 
 class PrinterAdmin(admin.ModelAdmin):
@@ -52,3 +47,8 @@ class PrinterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Printer, PrinterAdmin)
+admin.site.register(Device, DeviceAdmin)
+admin.site.register(sys, sysAdmin)
+admin.site.register(RecordApply, RecordApplyAdmin)
+admin.site.register(Cartridge, CartridgeAdmin)
+admin.site.register(RecordBorrow, RecordBorrowAdmin)

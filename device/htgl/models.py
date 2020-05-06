@@ -14,11 +14,12 @@ class Cartridge(models.Model):
     class Meta:
         managed = False
         db_table = 'cartridge'
-        verbose_name = '硒鼓'
-        verbose_name_plural = '硒鼓列表'
+        verbose_name = '硒鼓管理'
+        verbose_name_plural = '硒鼓管理'
 
-        def __str__(self):
-            return self.model
+    def __str__(self):
+        data=self.model+'('+self.color+')'
+        return data
 
 
 class sys(models.Model):
@@ -44,8 +45,8 @@ class Printer(models.Model):
     class Meta:
         managed = False
         db_table = 'printer'
-        verbose_name = '打印机种类'
-        verbose_name_plural = '打印机种类'
+        verbose_name = '打印机管理'
+        verbose_name_plural = '打印机管理'
 
 
 class Device(models.Model):
@@ -55,8 +56,7 @@ class Device(models.Model):
     sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
     type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别',
                              on_delete=models.PROTECT)
-    buytime = models.CharField(db_column='buyTime', max_length=50, blank=True,
-                               null=True, verbose_name='购置时间')  # Field name made lowercase.
+    buytime = models.DateField(db_column='buyTime', blank=True,null=True, verbose_name='购置时间')  # Field name made lowercase.
     memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
     status = models.CharField(max_length=1, blank=True, null=True)
     recordtime = models.DateTimeField(blank=True, null=True)
@@ -64,8 +64,8 @@ class Device(models.Model):
     class Meta:
         managed = False
         db_table = 'device'
-        verbose_name = '设备'
-        verbose_name_plural = '设备列表'
+        verbose_name = '设备管理'
+        verbose_name_plural = '设备管理'
 
 
 class RecordBorrow(models.Model):
@@ -75,15 +75,15 @@ class RecordBorrow(models.Model):
                               null=True)  # Field name made lowercase.
     department = models.CharField(max_length=50, blank=True, null=True, verbose_name='申请人部门')
     devices = models.CharField(max_length=500, blank=True, null=True, verbose_name='设备列表')
-    etime = models.CharField(max_length=10, blank=True, null=True, verbose_name='归还时间')
-    stime = models.CharField(max_length=10, blank=True, null=True, verbose_name='借用时间')
+    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
+    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
     reason = models.CharField(max_length=500, blank=True, null=True, verbose_name='借用原因')
     memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
     status = models.CharField(max_length=1, blank=True, null=True, verbose_name='型号')
     recordtime = models.DateTimeField(blank=True, null=True, verbose_name='状态')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'record_borrow'
         verbose_name = '设备借用申请'
         verbose_name_plural = '设备借用申请'
@@ -116,8 +116,8 @@ class RecordApply(models.Model):
     class Meta:
         managed = False
         db_table = 'record_apply'
-        verbose_name = '耗材记录'
-        verbose_name_plural = '耗材记录'
+        verbose_name = '耗材申领记录'
+        verbose_name_plural = '耗材申领记录'
 
 
 class RecordAudit(models.Model):
@@ -133,8 +133,8 @@ class RecordAudit(models.Model):
     class Meta:
         managed = False
         db_table = 'record_audit'
-        verbose_name = '借用审批'
-        verbose_name_plural = '借用审批'
+        verbose_name = '借用审批记录'
+        verbose_name_plural = '借用审批记录'
 
 
 class RecordDevice(models.Model):
@@ -147,14 +147,11 @@ class RecordDevice(models.Model):
     type = models.IntegerField(blank=True, null=True)
     did = models.IntegerField(db_column='dID', blank=True, null=True)  # Field name made lowercase.
     ctime = models.DateTimeField(blank=True, null=True)
-    rtime = models.CharField(max_length=20, blank=True, null=True)
+    rtime = models.DateField(blank=True, null=True)
     memo = models.CharField(max_length=200, blank=True, null=True)
-    stime = models.CharField(db_column='sTime', max_length=20, blank=True,
-                             null=True)  # Field name made lowercase.
-    etime = models.CharField(db_column='eTime', max_length=20, blank=True,
-                             null=True)  # Field name made lowercase.
-    return_field = models.CharField(db_column='return', max_length=1, blank=True,
-                                    null=True)  # Field renamed because it was a Python reserved word.
+    stime = models.DateField(db_column='sTime', blank=True,null=True)  # Field name made lowercase.
+    etime = models.DateField(db_column='eTime', blank=True,null=True)  # Field name made lowercase.
+    return_field = models.CharField(db_column='return', max_length=1, blank=True,null=True)  # Field renamed because it was a Python reserved word.
 
     class Meta:
         managed = False
