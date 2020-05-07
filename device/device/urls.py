@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from htgl import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('device/', views.device)
+path('device/<int:id>', views.deviceDetail),
+path('device/delete/<int:id>', views.deviceDelete),
+path('device/update/<int:id>', views.deviceUpdate),
+    url(r'^device/', views.deviceList)
+
 ]

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hans">
+<head>
+   <title>修改 设备管理 | 设备管理</title>
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+
+
+   <script type="text/javascript" src="/admin/jsi18n/"></script>
+   <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+   <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+   <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+   <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+   <script type="text/javascript" src="/static/admin/js/core.js"></script>
+   <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+   <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+   <script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+   <script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+   <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+
+
+   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+
+
+   <meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+
+<body class=" app-htgl model-device change-form"
+      data-admin-utc-offset="28800">
+
+<!-- Container -->
+<div id="container">
+
+
+   <!-- Header -->
+   <div id="header">
+      <div id="branding">
+
+         <h1 id="site-name"><a href="/admin/">设备管理后台</a></h1>
+
+      </div>
+
+
+      <div id="user-tools">
+
+         欢迎，
+         <strong>{{request.user.username}}</strong>.
+         <a href="/admin/logout/">注销</a>
+
+      </div>
+
+
+   </div>
+   <!-- END Header -->
+
+   <div class="breadcrumbs">
+      <a href="/">首页</a>
+      &rsaquo; <a href="/device/">设备管理</a>
+      &rsaquo; 设备修改
+   </div>
+
+
+   <!-- Content -->
+   <div id="content" class="colM">
+
+      <h1>修改 设备管理</h1>
+      <div id="content-main">
+         <form action="/device/update/{{list.id}}" method="post" id="device_form" novalidate>
+             {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken"
+                   value="UzpsEo3c3WEHtfjtv4fd4H0BRldzM4llmxQEFpq39Enf48DFPslcK3C6iYYQXrMj">
+            <div>
+
+
+               <fieldset class="module aligned ">
+
+
+                  <div class="form-row field-model">
+
+
+                     <div>
+
+
+                        <label for="id_model">型号:</label>
+
+                        <input type="text" name="model" value="{{list.model}}" class="vTextField" maxlength="50"
+                               id="id_model">
+
+
+                     </div>
+
+                  </div>
+
+                  <div class="form-row field-brand">
+
+
+                     <div>
+
+
+                        <label for="id_brand">品牌:</label>
+
+                        <input type="text" name="brand" value="{{list.brand}}" class="vTextField" maxlength="10"
+                               id="id_brand">
+
+
+                     </div>
+
+                  </div>
+
+                  <div class="form-row field-pic">
+
+
+                     <div>
+
+
+                        <label for="id_pic">图片:</label>
+
+                        <input type="text" name="pic" value="{{list.pic}}" class="vTextField" maxlength="100"
+                               id="id_pic">
+
+
+                     </div>
+
+                  </div>
+
+                  <div class="form-row field-sn">
+
+
+                     <div>
+
+
+                        <label for="id_sn">序列号:</label>
+
+                        <input type="text" name="sn" value="{{list.sn}}" class="vTextField" maxlength="50" id="id_sn">
+
+
+                     </div>
+
+                  </div>
+
+                  <div class="form-row field-type">
+
+
+                     <div>
+
+
+                        <label class="required" for="id_type" style="width: 65px;">类别:</label>
+
+                        <div class="related-widget-wrapper">
+                           <select name="type" required id="id_type">
+                              <option value="">---------</option>
+
+                              <option value="1">台式计算机</option>
+
+                              <option value="2">便携式计算机</option>
+
+                              <option value="3">打印机</option>
+                              <option value="4" selected>U盘</option>
+                              <option value="5">交换机</option>
+                           </select>
+                        </div>
+                         <div>
+                        <label for="id_buytime" style="margin-left: 100px;width: 65px;">购置时间:</label>
+                        <input type="text" name="buytime" class="vDateField" size="10" id="id_buytime">
+                     </div>
+                     </div>
+                  </div>
+                  <div class="form-row field-memo">
+                     <div>
+                        <label for="id_memo">备注:</label>
+                        <input type="text" name="memo" value="d" class="vTextField" maxlength="200"
+                               id="id_memo">
+                     </div>
+                  </div>
+                  <div class="form-row field-status">
+                     <div>
+                        <label for="id_status">状态:</label>
+                        <input type="text" name="status" value="0" class="vTextField" maxlength="1" id="id_status">
+                     </div>
+                  </div>
+                  <div class="form-row">
+                        <label for="id_recordtime_0" style="width: 100px;">记录时间:</label>
+                           日期： <input type="text" name="recordtime_0" value="2020/04/21" class="vDateField"
+                                      size="10" id="id_recordtime_0">
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      时间： <input type="text" name="recordtime_1" value="20:40" class="vTimeField" size="8" id="id_recordtime_1">
+                  </div>
+
+               </fieldset>
+
+
+               <div class="submit-row">
+                  <input type="submit" value="保存" class="default" name="_save">
+                  <p class="deletelink-box"><a href="/device/delete/{{list.id}}" class="deletelink"
+                                               onClick="return confirm('确定删除?');">删除</a></p>
+               </div>
+
+
+               <script type="text/javascript"
+                       id="django-admin-form-add-constants"
+                       src="/static/admin/js/change_form.js"
+               >
+               </script>
+
+
+               <script type="text/javascript"
+                       id="django-admin-prepopulated-fields-constants"
+                       src="/static/admin/js/prepopulate_init.js"
+                       data-prepopulated-fields="[]">
+               </script>
+
+
+            </div>
+         </form>
+      </div>
+
+
+      <br class="clear">
+   </div>
+   <!-- END Content -->
+
+   <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
