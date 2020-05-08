@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>设备管理</title>
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+   <meta charset="UTF-8">
+   <title>设备管理</title>
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+
 </head>
-<body class=" dashboard"
-  data-admin-utc-offset="28800">
+<body class=" dashboard" data-admin-utc-offset="28800">
+<table width="100%">
+   <tr id="header">
+      <td id="branding" style="border: 0;height: 30px;line-height: 30px;">
+         <h1><a href="/">设备管理系统</a></h1>
+      </td>
+      <td id="user-tools" style="border: 0;">
+         欢迎,<strong>{{username}}</strong><a href="/">返回首页</a> /
+         <a href="/password_change/">修改密码</a> /<a href="/logout/">注销</a>
+      </td>
+   </tr>
+   <tr>
+      <td colspan="2" style="height: 100%;">
+         <table width="100%">
+            <tr>
+               <td class="app-htgl module" width="300">
+                  <table width="100%">
+                     <caption>
+                        管理菜单
+                     </caption>
+                     <tr class="model-printer">
+                        <th scope="row"><a href="/printer/" target="contentframe">打印机种类列表</a></th>
+                        <td><a href="/printer/add/" class="addlink" target="contentframe">增加</a></td>
+                     </tr>
+                     <tr class="model-cartridge">
+                        <th scope="row"><a href="/admin/htgl/cartridge/" target="contentframe">硒鼓列表</a></th>
+                        <td><a href="/cartridge/add/" class="addlink" target="contentframe">增加</a></td>
+                     </tr>
 
+                     <tr class="model-device">
+                        <th scope="row"><a href="/device/" target="contentframe">设备列表</a></th>
+                        <td><a href="/device/add/" class="addlink" target="contentframe">增加</a></td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border: 0">
+                  <iframe name="contentframe" id="contentframe" width="100%" height="100%" frameborder="0"
+                          onload="changeFrameHeight()"></iframe>
+               </td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+</table>
 <!-- Container -->
-<div id="container">
+<script type="text/javascript">
+    function changeFrameHeight() {
+        var ifm = document.getElementById("contentframe");
+        ifm.height = document.documentElement.clientHeight - 170;
+    }
 
+    window.onresize = function () {
+        changeFrameHeight();
+    }
+</script>
 
-    <!-- Header -->
-    <div id="header">
-        <div id="branding">
-
-<h1 id="site-name"><a href="/admin/">设备管理后台</a></h1>
-
-        </div>
-
-
-        <div id="user-tools">
-                欢迎,
-                <strong>{{username}}</strong>.
-                    <a href="/">返回首页</a> /
-                <a href="/admin/password_change/">修改密码</a> /
-
-                <a href="/admin/logout/">注销</a>
-
-        </div>
-    </div>
-    <!-- END Header -->
-
-    <!-- Content -->
-    <div id="content" class="colMS">
-        <h1>站点管理</h1>
-<div id="content-main">
-        <div class="app-htgl module">
-        <table>
-        <caption>
-            <a href="/admin/htgl/" class="section" title="在应用程序 Htgl 中的模型">Htgl</a>
-        </caption>
-            <tr class="model-printer">
-                <th scope="row"><a href="/admin/htgl/printer/">打印机种类列表</a></th>
-                <td><a href="/admin/htgl/printer/add/" class="addlink">增加</a></td>
-                <td><a href="/admin/htgl/printer/" class="changelink">修改</a></td>
-            </tr>
-            <tr class="model-cartridge">
-                <th scope="row"><a href="/admin/htgl/cartridge/">硒鼓列表</a></th>
-                <td><a href="/admin/htgl/cartridge/add/" class="addlink">增加</a></td>
-                <td><a href="/admin/htgl/cartridge/" class="changelink">修改</a></td>
-            </tr>
-
-            <tr class="model-device">
-                <th scope="row"><a href="/admin/htgl/device/">设备列表</a></th>
-                <td><a href="/admin/htgl/device/add/" class="addlink">增加</a></td>
-                <td><a href="/admin/htgl/device/" class="changelink">修改</a></td>
-            </tr>
-
-        </table>
-        </div>
+<br class="clear">
 </div>
-        <br class="clear">
-    </div>
-    <!-- END Content -->
+<!-- END Content -->
 
-    <div id="footer"></div>
+<div id="footer"></div>
 </div>
 <!-- END Container -->
 

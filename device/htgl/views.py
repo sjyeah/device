@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from . import models
-from django.template import RequestContext
 
 
 # Create your views here.
@@ -17,19 +16,32 @@ def deviceDetail(request, id):
    data = {}
    dlist = models.Device.objects.get(id=id)
    data['list'] = dlist
+   list2 = models.sys.objects.all()
+   data['sys'] = list2
    return render(request, 'device/detail.html', data)
 
 
 def deviceDelete(request, id):
    models.Device.objects.get(id=id).delete()
-   return redirect("/device/list.html")
+   return redirect("/device/")
 
 
 def deviceUpdate(request, id):
    obj = models.Device.objects.get(id=id)
    obj.model = request.POST.get('model')
    obj.save();
-   return redirect("/device/list.html")
+   return redirect("/device/")
+
+
+def deviceAdd(request):
+   if request.method == "POST":
+      obj= models.sys.objects.get(id=1)
+      models.Device.objects.create(model = request.POST.get('model'),type=obj,brand= request.POST.get('brand'))
+      return redirect("/device/")
+   data = {}
+   list=models.sys.objects.all()
+   data['sys']=list
+   return render(request, 'device/add.html', data)
 
 
 def index(request):

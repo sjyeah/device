@@ -26,6 +26,7 @@ SECRET_KEY = 'w+b8c&v$hx3$o1neh^1fcjdp39806nc1+!pw1d8m5w%b3o*r%i'
 DEBUG = True
 
 ALLOWED_HOSTS = ['api.hzdyzj.cn','127.0.0.1']
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 
 # Application definition
