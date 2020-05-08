@@ -28,7 +28,15 @@ def deviceDelete(request, id):
 
 def deviceUpdate(request, id):
    obj = models.Device.objects.get(id=id)
+   obj2 = models.sys.objects.get(id=request.POST.get('type'))
    obj.model = request.POST.get('model')
+   obj.type=obj2
+   obj.brand= request.POST.get('brand')
+   if request.POST.get('buytime') !='':
+      obj.buytime= request.POST.get('buytime')
+   obj.sn = request.POST.get('sn')
+   obj.memo = request.POST.get('memo')
+   obj.status = request.POST.get('status')
    obj.save();
    return redirect("/device/")
 
