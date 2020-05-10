@@ -23,9 +23,9 @@ class Cartridge(models.Model):
 
 
 class sys(models.Model):
-   codename = models.CharField(max_length=20, blank=True, null=True, verbose_name='名称')
+   codename = models.CharField(db_column='codeName',max_length=20, blank=True, null=True, verbose_name='名称')
    sort = models.IntegerField(blank=True, null=True, verbose_name='排序')
-   codetype = {('1', '设备类别')}
+   codetype = {('1', '设备类别'),('2', '设备状态')}
    type = models.IntegerField(blank=True, null=True, verbose_name='代码类别', choices=codetype)
 
    class Meta:
@@ -39,9 +39,8 @@ class sys(models.Model):
 
 
 class department(models.Model):
-   depname = models.CharField(max_length=20, blank=True, null=True, verbose_name='名称')
+   depname = models.CharField(db_column='depName',max_length=20, blank=True, null=True, verbose_name='名称')
    sort = models.IntegerField(blank=True, null=True, verbose_name='排序')
-   codetype = models.CharField(max_length=10, blank=True, null=True, verbose_name='代码类别')
 
    class Meta:
       managed = True
@@ -89,10 +88,11 @@ class Device(models.Model):
    type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', on_delete=models.PROTECT)
    depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='责任处室', on_delete=models.PROTECT)
    memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True, verbose_name='责任人', on_delete=models.PROTECT)
-   room = models.DateField(blank=True, null=True, verbose_name='房间号')
+   room = models.CharField(max_length=20,blank=True, null=True, verbose_name='房间号')
    buytime = models.DateField(db_column='buyTime', blank=True, null=True, verbose_name='购置时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
-   status = models.CharField(max_length=1, blank=True, null=True)
+   zt=((1,'个人使用'),(2,'处室使用'))
+   status = models.CharField(max_length=1, blank=True, null=True,choices=zt)
    recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
    class Meta:

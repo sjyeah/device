@@ -7,10 +7,11 @@ admin.site.site_title = '设备管理'
 
 # Register your models here.
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'model', 'brand', 'pic', 'sn', 'buytime', 'type']
-    list_filter = ['model']
+    list_display = ['id', 'model', 'depid', 'memid', 'room','buytime', 'type']
+    list_filter = ['type']
     search_fields = ['model']
     list_per_page = 20
+    change_form_template = 'device/detail.html'
 
 
 class sysAdmin(admin.ModelAdmin):
