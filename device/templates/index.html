@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
       </td>
       <td id="user-tools" style="border: 0;">
          欢迎,<strong>{{username}}</strong><a href="/">返回首页</a> /
-         <a href="/password_change/">修改密码</a> /<a href="/logout/">注销</a>
+         <a href="/password_change/">修改密码</a> /<a href="/admin/logout/">注销</a>
       </td>
    </tr>
    <tr>
@@ -28,24 +29,23 @@
                      <caption>
                         管理菜单
                      </caption>
-                     <tr class="model-printer">
+                     <!--<tr class="model-printer">
                         <th scope="row"><a href="/printer/" target="contentframe">打印机种类列表</a></th>
-                        <td><a href="/printer/add/" class="addlink" target="contentframe">增加</a></td>
+                        <td><a href="/admin/htgl/printer/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr class="model-cartridge">
-                        <th scope="row"><a href="/admin/htgl/cartridge/" target="contentframe">硒鼓列表</a></th>
-                        <td><a href="/cartridge/add/" class="addlink" target="contentframe">增加</a></td>
-                     </tr>
-
+                        <th scope="row"><a href="/cartridge" target="contentframe">硒鼓列表</a></th>
+                        <td><a href="/admin/htgl/cartridge/add/" class="addlink" target="contentframe">增加</a></td>
+                     </tr>-->
                      <tr class="model-device">
-                        <th scope="row"><a href="/device/" target="contentframe">设备列表</a></th>
-                        <td><a href="/device/add/" class="addlink" target="contentframe">增加</a></td>
+                        <th scope="row"><a href="/admin/htgl/device/" target="contentframe">设备列表</a></th>
+                        <td><a href="/admin/htgl/device/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                   </table>
                </td>
-               <td style="border: 0">
+               <td style="border: 0;padding: 0;margin: 0;">
                   <iframe name="contentframe" id="contentframe" width="100%" height="100%" frameborder="0"
-                          onload="changeFrameHeight()"></iframe>
+                          onload="changeFrameHeight()" src="/admin/htgl/device/"></iframe>
                </td>
             </tr>
          </table>

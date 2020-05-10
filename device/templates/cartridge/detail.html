@@ -27,7 +27,7 @@
     </a> 设备详情 | 编辑
     </h1>
     <div id="content-main">
-        <form action="/device/update/{{list.id}}" method="post" id="device_form" novalidate>
+        <form action="/cartridge/update/{{list.id}}" method="post" id="cartridge_form" novalidate>
             {%csrf_token%}
             <div>
                 <fieldset class="module aligned ">
@@ -45,58 +45,23 @@
                                    id="id_brand">
                         </div>
                     </div>
-                    <div class="form-row field-pic">
+                    <div class="form-row field-sn">
                         <div>
-                            <label for="id_pic">图片:</label>
-                            <input type="text" name="pic" value="{{list.pic}}" class="vTextField" maxlength="100"
-                                   id="id_pic">
+                            <label>颜色:</label>
+                            <input type="text" name="color" value="{{list.color}}" class="vTextField" maxlength="50">
                         </div>
                     </div>
                     <div class="form-row field-sn">
                         <div>
-                            <label for="id_sn">序列号:</label>
-                            <input type="text" name="sn" value="{{list.sn}}" class="vTextField" maxlength="50" id="id_sn">
+                            <label>库存:</label>
+                            <input type="text" name="number" value="{{list.number}}" class="vTextField" maxlength="50">
                         </div>
-                    </div>
-                    <div class="form-row field-type">
-                        <div>
-                            <label class="required" for="id_type" style="width: 65px;">类别:</label>
-                            <div class="related-widget-wrapper">
-                                <select name="type" required id="id_type">
-                                    <option value="" {% if list.type == None %} selected={%endif%}>---------</option>
-                                    {%for type in sys%}
-                                    <option value="{{type.id}}" {% if type == list.type %} selected{%endif%}>{{type.typename}}</option>
-                                    {%endfor%}}
-                                </select>
-                            </div>
-                            <div>
-                                <label for="id_buytime" style="margin-left: 100px;width: 65px;">购置时间:</label>
-                                <input type="text" name="buytime" class="vDateField" size="10" id="id_buytime" value="{{list.buytime|date:"Y-m-d"}}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row field-memo">
-                        <div>
-                            <label for="id_memo">备注:</label>
-                            <input type="text" name="memo" value="d" class="vTextField" maxlength="200"
-                                   id="id_memo">
-                        </div>
-                    </div>
-                    <div class="form-row field-status">
-                        <div>
-                            <label for="id_status">状态:</label>
-                            <input type="text" name="status" value="0" class="vTextField" maxlength="1" id="id_status">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label style="width: 100px;">记录时间:</label>
-                         <label style="width: 200px;margin-left: 60px;">{{list.recordtime}}</label>
                     </div>
                 </fieldset>
                 <div class="submit-row">
                     <input type="submit" value="保存" class="default" name="_save">
                     <p class="deletelink-box">
-                        <a href="/device/delete/{{list.id}}" class="deletelink" onClick="return confirm('确定删除?');">删除</a>
+                        <a href="/cartridge/delete/{{list.id}}" class="deletelink" onClick="return confirm('确定删除?');">删除</a>
                     </p>
                 </div>
                 <script type="text/javascript" id="django-admin-form-add-constants" src="/static/admin/js/change_form.js">

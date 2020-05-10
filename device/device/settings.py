@@ -28,6 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['api.hzdyzj.cn','127.0.0.1']
 X_FRAME_OPTIONS = 'ALLOWALL'
 
+USE_L10N = False
+DATE_FORMAT = 'YYYY-MM-dd'
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+
 
 # Application definition
 

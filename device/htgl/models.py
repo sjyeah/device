@@ -1,11 +1,11 @@
-from django.db import models
+from django.db import models,reset_queries
 
 
 # Create your models here.
 
 
 class Cartridge(models.Model):
-    model = models.CharField(max_length=20, blank=True, null=True, verbose_name='型号')
+    model = models.CharField(max_length=20, blank=False, null=False, verbose_name='型号')
     color = models.CharField(max_length=5, blank=True, null=True, verbose_name='颜色')
     code = models.CharField(max_length=4, blank=True, null=True)
     number = models.IntegerField(blank=True, null=True, verbose_name='数量')
@@ -50,16 +50,15 @@ class Printer(models.Model):
 
 
 class Device(models.Model):
-    model = models.CharField(max_length=50, blank=True, null=True, verbose_name='型号')
+    model = models.CharField(max_length=50, blank=False, null=False, verbose_name='型号')
     brand = models.CharField(max_length=10, blank=True, null=True, verbose_name='品牌')
-    pic = models.CharField(max_length=100, blank=True, null=True, verbose_name='图片')
+    pic = models.CharField(max_length=100, blank=True, null=True, verbose_name='图片',editable=False)
     sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
-    type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别',
-                             on_delete=models.PROTECT)
-    buytime = models.DateField(db_column='buyTime', blank=True,null=True, verbose_name='购置时间')  # Field name made lowercase.
+    type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', on_delete=models.PROTECT)
+    buytime = models.DateField(db_column='buyTime', blank=True,null=True, verbose_name='购置时间')
     memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
     status = models.CharField(max_length=1, blank=True, null=True)
-    recordtime = models.DateTimeField(blank=True, null=True)
+    recordtime = models.DateTimeField(blank=True, null=True,auto_now_add=True)
 
     class Meta:
         managed = False

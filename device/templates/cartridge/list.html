@@ -2,7 +2,7 @@
 
 <html lang="zh-Hans">
 <head>
-   <title>打印机管理 | 设备管理</title>
+   <title>硒鼓管理 | 设备管理</title>
    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
    <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
    <script type="text/javascript" src="/admin/jsi18n/"></script>
@@ -26,7 +26,7 @@
       <div class="module filtered" id="changelist">
          <div id="toolbar" style="position: relative;height: 50px;padding: 0;margin: 0">
                 <div class="object-tools" style="position: absolute;left: 10px;margin: 0;line-height: 30px;top:7px;padding: 0">
-                    <a href="/device/add/" class="addlink">增加设备</a>
+                    <a href="/cartridge/add/" class="addlink">增加硒鼓</a>
                 </div>
                <div style="position: absolute;left: 200px;top:10px;line-height: 30px;"><!-- DIV needed for valid HTML -->
                   <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
@@ -52,32 +52,22 @@
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">序列号</a></div>
+                        <div class="text"><a href="?o=4">颜色</a></div>
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">类别</a></div>
-                        <div class="clear"></div>
-                     </th>
-                     <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">状态</a></div>
-                        <div class="clear"></div>
-                     </th>
-                     <th scope="col" class="sortable column-cartridges">
-                        <div class="text"><a href="?o=5">购置时间</a></div>
+                        <div class="text"><a href="?o=4">库存</a></div>
                         <div class="clear"></div>
                      </th>
                   </tr>
                   </thead>
                   {%for d in list%}
                   <tr class="row1">
-                     <th class="field-id"><a href="/device/{{d.id}}">{{d.id}}</a></th>
+                     <th class="field-id"><a href="/cartridge/detail/{{d.id}}">{{d.id}}</a></th>
                      <td class="field-model">{{d.model}}</td>
                      <td class="field-brand">{{d.brand}}</td>
-                     <td class="field-pic">{{d.sn}}</td>
-                     <td class="field-pic">{{d.type}}</td>
-                     <td class="field-pic">{{d.status}}</td>
-                     <td class="field-cartridges">{{d.buytime}}</td>
+                     <td class="field-pic">{{d.color}}</td>
+                     <td class="field-pic">{{d.number}}</td>
                   </tr>
                   {% endfor %}
                   </tbody>
