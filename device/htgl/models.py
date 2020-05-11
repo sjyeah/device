@@ -46,7 +46,7 @@ class department(models.Model):
       managed = True
       db_table = 'department'
       verbose_name = '部门管理'
-      verbose_name_plural = '部门管理'
+      verbose_name_plural = '部门'
 
    def __str__(self):
       return self.depname
@@ -60,8 +60,8 @@ class member(models.Model):
    class Meta:
       managed = True
       db_table = 'member'
-      verbose_name = '部门管理'
-      verbose_name_plural = '部门管理'
+      verbose_name = '成员管理'
+      verbose_name_plural = '成员'
 
    def __str__(self):
       return self.name
@@ -99,7 +99,7 @@ class Device(models.Model):
       managed = True
       db_table = 'device'
       verbose_name = '设备管理'
-      verbose_name_plural = '设备管理'
+      verbose_name_plural = '设备'
 
 
 class RecordBorrow(models.Model):

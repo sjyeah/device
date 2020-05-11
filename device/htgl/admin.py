@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Device, Printer, sys, RecordApply, Cartridge,RecordBorrow
+from .models import Device, Printer, sys, RecordApply, Cartridge, RecordBorrow,department,member
 
 admin.site.site_header = '设备管理后台'
 admin.site.site_title = '设备管理'
@@ -7,47 +7,65 @@ admin.site.site_title = '设备管理'
 
 # Register your models here.
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'model', 'depid', 'memid', 'room','buytime', 'type']
-    list_filter = ['type']
-    search_fields = ['model']
-    list_per_page = 20
-    change_form_template = 'device/detail.html'
+   list_display = ['id', 'model', 'depid', 'memid', 'room', 'buytime', 'type']
+   list_filter = ['type']
+   search_fields = ['model']
+   list_per_page = 20
+   change_form_template = 'device/edit.html'
+   ordering = ('type',)
 
 
 class sysAdmin(admin.ModelAdmin):
-    list_display = ['id', 'codename', 'sort']
-    list_per_page = 20
+   list_display = ['id', 'codename', 'sort', 'type']
+   list_per_page = 20
+
+
+class memberAdmin(admin.ModelAdmin):
+   list_display = ['id', 'name', 'depid', 'sort']
+   list_filter = ['depid']
+   search_fields = ['name']
+   list_per_page = 20
+   ordering = ('depid','sort',)
+
+
+class departmentAdmin(admin.ModelAdmin):
+   list_display = ['id', 'depname', 'sort']
+   search_fields = ['depname']
+   list_per_page = 20
+   ordering = ('sort',)
 
 
 class CartridgeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'model', 'brand', 'number', 'color']
-    list_filter = ['model']
-    search_fields = ['model']
-    list_per_page = 20
+   list_display = ['id', 'model', 'brand', 'number', 'color']
+   list_filter = ['model']
+   search_fields = ['model']
+   list_per_page = 20
 
 
 class RecordApplyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'crid', 'amount', 'username', 'department', 'recordtime']
-    list_filter = ['department', 'crid']
-    search_fields = ['username']
-    list_per_page = 20
+   list_display = ['id', 'crid', 'amount', 'username', 'department', 'recordtime']
+   list_filter = ['department', 'crid']
+   search_fields = ['username']
+   list_per_page = 20
 
 
 class RecordBorrowAdmin(admin.ModelAdmin):
-    list_display = ['id', 'reason', 'stime', 'etime', 'devices', 'username', 'department', 'recordtime']
-    list_filter = ['department', 'username']
-    search_fields = ['username']
-    list_per_page = 20
+   list_display = ['id', 'reason', 'stime', 'etime', 'devices', 'username', 'department', 'recordtime']
+   list_filter = ['department', 'username']
+   search_fields = ['username']
+   list_per_page = 20
 
 
 class PrinterAdmin(admin.ModelAdmin):
-    list_display = ['id', 'model', 'brand', 'pic', 'cartridges']
-    list_filter = ['model']
-    search_fields = ['model']
-    list_per_page = 20
+   list_display = ['id', 'model', 'brand', 'pic', 'cartridges']
+   list_filter = ['model']
+   search_fields = ['model']
+   list_per_page = 20
 
 
 admin.site.register(Printer, PrinterAdmin)
+admin.site.register(department, departmentAdmin)
+admin.site.register(member, memberAdmin)
 admin.site.register(Device, DeviceAdmin)
 admin.site.register(sys, sysAdmin)
 admin.site.register(RecordApply, RecordApplyAdmin)
