@@ -21,7 +21,7 @@ from htgl import views
 urlpatterns = [
    path('admin/', views.index),
    url(r'^admin/', admin.site.urls),
-   path('device/<int:id>/change/', views.deviceDetail),
+   path('device/<int:id>', views.deviceDetail),
    path('device/delete/<int:id>', views.deviceDelete),
    path('device/update/<int:id>', views.deviceUpdate),
    path('device/add/', views.deviceAdd),
