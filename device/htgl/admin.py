@@ -97,7 +97,7 @@ class RecordBorrowAdmin(admin.ModelAdmin):
 
 
 class PrinterAdmin(admin.ModelAdmin):
-   list_display = ['id', 'model', 'brand', 'pic', 'cartridges']
+   list_display = ['id', 'model', 'brand', 'cartridges']
    list_filter = ['model']
    search_fields = ['model']
    list_per_page = 20
@@ -105,7 +105,7 @@ class PrinterAdmin(admin.ModelAdmin):
 
 class PrintertypeAdmin(admin.ModelAdmin):
    def 使用的硒鼓(self):
-      return [bt.model for bt in Cartridge.objects.filter(id=self.id)]
+      return [a.model+'('+a.color+')' for a in self.cartridges.all()]
    list_display = ['id', 'model', 'brand', 'pic', 使用的硒鼓]
    list_filter = ['model']
    search_fields = ['model']

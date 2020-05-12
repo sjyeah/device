@@ -98,14 +98,13 @@ class Device(models.Model):
    brand = models.CharField(max_length=10, blank=True, null=True, verbose_name='品牌', editable=False)
    pic = models.CharField(max_length=100, blank=True, null=True, verbose_name='图片', editable=False)
    sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
-   type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', on_delete=models.PROTECT)
+   type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别',limit_choices_to={'type':'1'}, on_delete=models.PROTECT)
    depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='责任处室', on_delete=models.PROTECT)
    memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True, verbose_name='责任人', on_delete=models.PROTECT)
    room = models.CharField(max_length=20, blank=True, null=True, verbose_name='房间号')
    buytime = models.DateField(db_column='buyTime', blank=True, null=True, verbose_name='购置时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
-   zt = ((1, '个人使用'), (2, '处室使用'))
-   status = models.CharField(max_length=1, blank=True, null=True, choices=zt, verbose_name='状态')
+   status = models.ForeignKey(sys,db_column='status', blank=True, null=True,related_name='zt', to_field='id',limit_choices_to={'type':'2'}, verbose_name='状态',on_delete=models.PROTECT)
    recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
    class Meta:
