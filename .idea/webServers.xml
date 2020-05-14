@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="58cdd75a-739c-4455-a153-9f025850c42c" name="api.hzdyzj.cn">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="api.hzdyzj.cn" port="22" sshConfigId="5ac237b2-8e0a-4bc7-937f-ba3aa660238e" sshConfig="root@api.hzdyzj.cn:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

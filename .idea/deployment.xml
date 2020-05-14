@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="api.hzdyzj.cn">
+    <serverData>
+      <paths name="api.hzdyzj.cn">
+        <serverdata>
+          <mappings>
+            <mapping deploy="zzb" local="$PROJECT_DIR$" web="~/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
