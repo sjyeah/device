@@ -19,7 +19,7 @@ from django.conf.urls import url
 from htgl import views
 
 urlpatterns = [
-   # path('admin/', views.index),
+   path('admin/', views.index),
    url(r'^admin/', admin.site.urls),
    path('device/<int:id>', views.deviceDetail),
    path('device/delete/<int:id>', views.deviceDelete),
