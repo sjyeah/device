@@ -57,7 +57,8 @@ class DeviceAdmin(admin.ModelAdmin):
 class sysAdmin(admin.ModelAdmin):
     list_display = ['id', 'codename', 'sort', 'type']
     list_per_page = 20
-    ordering = ('sort',)
+    ordering = ('type','sort',)
+    list_filter = (('type'),)
 
 
 class memberAdmin(admin.ModelAdmin):
