@@ -90,9 +90,11 @@ class RecordApplyAdmin(admin.ModelAdmin):
 
 
 class RecordBorrowAdmin(admin.ModelAdmin):
-    list_display = ['id', 'reason', 'stime', 'etime', 'devices', 'username', 'department', 'recordtime']
-    list_filter = ['department', 'username']
-    search_fields = ['username']
+    def 借用的设备(self):
+        return [a.model for a in self.devices.all()]
+    list_display = ['id', 'reason', 'stime', 'etime', 借用的设备, 'userid', 'depid']
+    list_filter = ['depid']
+    search_fields = ['userid']
     list_per_page = 20
 
 
