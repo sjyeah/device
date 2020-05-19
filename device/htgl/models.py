@@ -64,7 +64,7 @@ class member(models.Model):
       verbose_name_plural = verbose_name
 
    def __str__(self):
-       return self.name
+      return self.name
 
 
 class Printer(models.Model):
@@ -98,15 +98,17 @@ class Device(models.Model):
    brand = models.CharField(max_length=10, blank=True, null=True, verbose_name='品牌', editable=False)
    pic = models.CharField(max_length=100, blank=True, null=True, verbose_name='图片', editable=False)
    sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
-   type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', limit_choices_to={'type': '1'}, on_delete=models.PROTECT)
+   type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', limit_choices_to={'type': '1'},
+                            on_delete=models.PROTECT)
    depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='责任处室', on_delete=models.PROTECT)
    memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True, verbose_name='责任人', on_delete=models.PROTECT)
    room = models.CharField(max_length=20, blank=True, null=True, verbose_name='房间号')
    buytime = models.DateField(db_column='buyTime', blank=True, null=True, verbose_name='购置时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
-   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='zt', to_field='id', limit_choices_to={'type': '2'}, verbose_name='状态', on_delete=models.PROTECT)
+   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='zt', to_field='id', limit_choices_to={'type': '2'},
+                              verbose_name='状态', on_delete=models.PROTECT)
    recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-   updatetime=models.DateTimeField(blank=True, null=True, auto_now=True)
+   updatetime = models.DateTimeField(blank=True, null=True, auto_now=True)
 
    class Meta:
       managed = True
@@ -119,16 +121,17 @@ class Device(models.Model):
 
 
 class RecordBorrow(models.Model):
-   userid = models.ForeignKey(member,to_field='id',db_column='userid',null=True, on_delete=models.PROTECT,verbose_name='借用人')
-   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='借用处室', on_delete=models.PROTECT)
+   userid = models.ForeignKey(member, to_field='id', db_column='userid', null=True, on_delete=models.PROTECT, verbose_name='申请人')
+   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='申请处室', on_delete=models.PROTECT)
    devices = models.ManyToManyField(Device, verbose_name='借用设备')
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
    reason = models.CharField(max_length=500, blank=True, null=True, verbose_name='借用原因')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
-   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='jyzt', to_field='id', limit_choices_to={'type': '3'}, verbose_name='状态', on_delete=models.PROTECT)
-   recordtime = models.DateTimeField(auto_now_add=True, verbose_name='生成时间', null=True,editable=False)
-   updatetime = models.DateTimeField(auto_now=True, verbose_name='更新时间',null=True, editable=False)
+   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='jyzt', to_field='id', limit_choices_to={'type': '3'},
+                              verbose_name='状态', on_delete=models.PROTECT)
+   recordtime = models.DateTimeField(auto_now_add=True, verbose_name='生成时间', null=True, editable=False)
+   updatetime = models.DateTimeField(auto_now=True, verbose_name='更新时间', null=True, editable=False)
 
    class Meta:
       managed = True
@@ -158,18 +161,20 @@ class RecordApply(models.Model):
 
 
 class RecordDevice(models.Model):
-   did = models.ForeignKey(Device,db_column='dID',to_field='id', null=True,on_delete=models.PROTECT,verbose_name='设备id')
-   borrowid=models.ForeignKey(RecordBorrow,db_column='borrowID',to_field='id', on_delete=models.PROTECT,null=True,verbose_name='借用id')
-   returntime=models.DateField(blank=True, null=True, verbose_name='归还时间')
-   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='ghzt', to_field='id', limit_choices_to={'type': '4'}, verbose_name='状态', on_delete=models.PROTECT)
-   recordtime = models.DateTimeField(null=True,auto_now_add=True)
-   updatetime = models.DateTimeField(null=True,auto_now=True)
+   did = models.ForeignKey(Device, db_column='dID', to_field='id', null=True, on_delete=models.PROTECT, verbose_name='设备id')
+   borrowid = models.ForeignKey(RecordBorrow, db_column='borrowID', to_field='id', on_delete=models.PROTECT, null=True, verbose_name='借用id')
+   returntime = models.DateField(blank=True, null=True, verbose_name='归还时间')
+   status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='ghzt', to_field='id', limit_choices_to={'type': '4'},
+                              verbose_name='状态', on_delete=models.PROTECT)
+   recordtime = models.DateTimeField(null=True, auto_now_add=True)
+   updatetime = models.DateTimeField(null=True, auto_now=True)
 
    class Meta:
       managed = True
       db_table = 'record_device'
-      verbose_name = '设备借用记录'
+      verbose_name = '借用记录'
       verbose_name_plural = verbose_name
+      unique_together = (('did', 'borrowid'),)
 
 
 class ecsstatus(models.Model):

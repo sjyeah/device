@@ -4,6 +4,36 @@ from . import models
 
 
 # Create your views here.
+def borrowList(request):
+   data = {}
+   dlist = models.RecordBorrow.objects.all()
+   data['list'] = dlist
+   return render(request, 'device/list.html', data)
+
+
+def borrowAudit(request):
+   obj = models.RecordBorrow.objects.get(id=request.POST.get('bid'))
+   obj2 = models.sys.objects.get(id=16)
+   if obj.status!=obj2:
+      obj.status = obj2
+      obj.save();
+      for dev in obj.devices.all():
+         x = models.RecordDevice.objects.create()
+         x.did = dev
+         x.borrowid = obj
+         x.status = models.sys.objects.get(id=18)
+         x.save()
+   return redirect("/device/")
+
+
+def borrowAudit2(request, id):
+   obj3 = models.sys.objects.get(id=16)
+   obj = models.RecordBorrow.objects.get(id=id)
+   if obj.status!=obj3:
+     obj2 = models.sys.objects.get(id=17)
+     obj.status = obj2
+     obj.save();
+   return redirect("/device/")
 
 
 def deviceList(request):
@@ -45,12 +75,12 @@ def deviceUpdate(request, id):
 
 def deviceAdd(request):
    if request.method == "POST":
-      obj=models.Device.objects.create()
-      obj.model=request.POST.get('model')
-      obj.type=request.POST.get('sys')
-      obj.brand=request.POST.get('brand')
-      obj.sn=request.POST.get('sn')
-      obj.memo=request.POST.get('memo')
+      obj = models.Device.objects.create()
+      obj.model = request.POST.get('model')
+      obj.type = request.POST.get('sys')
+      obj.brand = request.POST.get('brand')
+      obj.sn = request.POST.get('sn')
+      obj.memo = request.POST.get('memo')
       if request.POST.get('buytime') != '':
          x = request.POST.get('buytime').replace('/', '-')
          obj.buytime = datetime.strptime(x, "%Y-%m-%d")
@@ -103,9 +133,11 @@ def cartridgeUpdate(request, id):
    obj.save();
    return redirect("/cartridge/")
 
+
 def cartridgeDelete(request, id):
    models.Cartridge.objects.get(id=id).delete()
    return redirect("/cartrdge/")
+
 
 def index(request):
    username = None
