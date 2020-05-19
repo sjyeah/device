@@ -2,8 +2,9 @@
 
 <html lang="zh-Hans">
 <head>
-   <title>打印机管理 | 设备管理</title>
+   <title>设备管理|借用审批</title>
    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
    <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
    <script type="text/javascript" src="/admin/jsi18n/"></script>
    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
@@ -16,7 +17,6 @@
    <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
-   <meta name="robots" content="NONE,NOARCHIVE">
 </head>
 <body>
 <!-- Container -->
@@ -25,59 +25,73 @@
 
       <div class="module filtered" id="changelist">
          <div id="toolbar" style="position: relative;height: 50px;padding: 0;margin: 0">
-                <div class="object-tools" style="position: absolute;left: 10px;margin: 0;line-height: 30px;top:7px;padding: 0">
-                    <a href="/device/add/" class="addlink">增加设备</a>
-                </div>
-               <div style="position: absolute;left: 200px;top:10px;line-height: 30px;"><!-- DIV needed for valid HTML -->
-                  <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
-                  <input type="text" size="40" name="q" value="" id="searchbar" autofocus>
-                  <input type="submit" value="搜索" style="height: 30px;line-height: 30px;margin: 0;padding: 0;width: 100px;">
-               </div>
+            <div style="position: absolute;left: 200px;top:10px;line-height: 30px;"><!-- DIV needed for valid HTML -->
+               <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
+               <input type="text" size="40" name="q" value="" id="searchbar" autofocus>
+               <input type="submit" value="搜索" style="height: 30px;line-height: 30px;margin: 0;padding: 0;width: 100px;">
+            </div>
          </div>
-         <form id="changelist-form" method="post" novalidate>
+         <form id="changelist-form" action="/device/audit/" method="post" novalidate>
+            {%csrf_token%}
             <div class="results">
-               <table id="result_list">
+               <table id="result_list" style="line-height: 25px;">
                   <thead>
-                  <tr>
-                     <th scope="col" class="sortable column-id">
-                        <div class="text"><a href="?o=1">ID</a></div>
-                        <div class="clear"></div>
+                  <tr style="line-height: 25px;text-indent: 10px;">
+                     <th scope="col">
+                        <div>ID</div>
                      </th>
-                     <th scope="col" class="sortable column-model">
-                        <div class="text"><a href="?o=2">型号</a></div>
-                        <div class="clear"></div>
+                     <th scope="col">
+                        <div class="text">借用的设备</div>
                      </th>
-                     <th scope="col" class="sortable column-brand">
-                        <div class="text"><a href="?o=3">品牌</a></div>
+                     <th scope="col" class="sortable column-pic">
+                        <div class="text">申请人</div>
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">序列号</a></div>
+                        <div class="text">申请原因</div>
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">类别</a></div>
+                        <div class="text">借用时间</div>
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
-                        <div class="text"><a href="?o=4">状态</a></div>
+                        <div class="text">状态</div>
                         <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-cartridges">
-                        <div class="text"><a href="?o=5">购置时间</a></div>
+                        <div class="text" style="text-indent: 20px;line-height: 35px;">操作</div>
                         <div class="clear"></div>
                      </th>
                   </tr>
                   </thead>
                   {%for d in list%}
-                  <tr class="row1">
-                     <th class="field-id"><a href="/device/{{d.id}}">{{d.id}}</a></th>
-                     <td class="field-model">{{d.model}}</td>
-                     <td class="field-brand">{{d.brand}}</td>
-                     <td class="field-pic">{{d.sn}}</td>
-                     <td class="field-pic">{{d.type}}</td>
-                     <td class="field-pic">{{d.status}}</td>
-                     <td class="field-cartridges">{{d.buytime}}</td>
+                  <tr class="row1" style="height: 25px;padding: 0;margin: 0;line-height: 25px;">
+                     <th style="line-height: 25px;">{{d.id}}</th>
+                     <td style="line-height: 25px;">
+                        {% for item in d.devices.all %}
+                        {{item}},
+                        {% endfor %}
+                     </td>
+                     <td style="line-height: 25px;">{{d.userid}}</td>
+                     <td style="line-height: 25px;">{{d.reason}}</td>
+                     <td style="line-height: 25px;">{{d.stime}}-{{d.etime}}</td>
+                     <td style="line-height: 25px;">{{d.status}}</td>
+                     <td style="width:90px;">
+                        <div class="submit-row" style="background-color: white;border: 0;padding: 0;margin: 0;position: relative;">
+                           <div style="position: absolute;left: 5px;">
+                              <button type="submit" value="{{d.id}}" name="bid"
+                                      style="background: #79aec8;border:0;border-radius:4px;color:white;cursor: pointer;height: 25px;width: 40px;padding: 0;margin: 0;"
+                                      onClick="return confirm('确定同意?');">同意
+                              </button>
+                           </div>
+                           <div class="deletelink-box" style="float: right;">
+                              <a href="/device/disagree/{{d.id}}" class="deletelink"
+                                 style="height: 25px;width: 40px;padding: 0;margin: 0;text-align: center;line-height: 25px;"
+                                 onClick="return confirm('确定退回?');">退回</a>
+                           </div>
+                        </div>
+                     </td>
                   </tr>
                   {% endfor %}
                   </tbody>
