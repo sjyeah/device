@@ -25,7 +25,9 @@ class Cartridge(models.Model):
 class sys(models.Model):
    codename = models.CharField(db_column='codeName', max_length=20, blank=True, null=True, verbose_name='名称')
    sort = models.IntegerField(blank=True, null=True, verbose_name='排序')
-   type = models.IntegerField(blank=True, null=True, verbose_name='代码类别', choices=((1, '设备类别'), (2, '设备状态'), (3, '设备审批'), (4, '借用状态')))
+   type = models.IntegerField(blank=True, null=True, verbose_name='代码类别',
+                              choices=((1, '设备类别'), (2, '设备状态'), (3, '设备审批'), (4, '借用状态'),
+                                       (5, '负责人'), (6, '进度'), (7, '模块')))
 
    class Meta:
       managed = True
@@ -39,6 +41,7 @@ class sys(models.Model):
 
 class department(models.Model):
    depname = models.CharField(db_column='depName', max_length=20, blank=True, null=True, verbose_name='名称')
+   dingid = models.CharField(db_column='dingID', max_length=20, blank=True, null=True, unique=True, verbose_name='dingID')
    sort = models.IntegerField(blank=True, null=True, verbose_name='排序')
 
    class Meta:
@@ -52,7 +55,7 @@ class department(models.Model):
 
 
 class member(models.Model):
-   dingID = models.CharField(max_length=20, blank=True, null=True, verbose_name='钉钉编号')
+   dingid = models.CharField(db_column='dingID', max_length=20, blank=True, null=True, unique=True, verbose_name='钉钉编号')
    name = models.CharField(db_column='memberName', max_length=10, blank=False, null=False, verbose_name='姓名')
    sort = models.IntegerField(blank=True, null=True, verbose_name='排序')
    depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, blank=True, verbose_name='所属处室', on_delete=models.PROTECT)
@@ -121,8 +124,8 @@ class Device(models.Model):
 
 
 class RecordBorrow(models.Model):
-   userid = models.ForeignKey(member, to_field='id', db_column='userid', null=True, on_delete=models.PROTECT, verbose_name='申请人')
-   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='申请处室', on_delete=models.PROTECT)
+   userid = models.ForeignKey(member, to_field='dingid', db_column='userid', null=True, on_delete=models.PROTECT, verbose_name='申请人')
+   depid = models.ForeignKey(department, db_column='depID', to_field='dingid', null=True, verbose_name='申请处室', on_delete=models.PROTECT)
    devices = models.ManyToManyField(Device, verbose_name='借用设备')
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
@@ -211,5 +214,25 @@ class ecs(models.Model):
       managed = True
       db_table = 'ecs'
       verbose_name = '云服务器'
+      verbose_name_plural = verbose_name
+      sorted('sort')
+
+
+class xuqiu(models.Model):
+   title = models.ForeignKey(sys, db_column='title',related_name='r2', to_field='id', limit_choices_to={'type': '7'}, verbose_name='模块', on_delete=models.PROTECT)
+   content = models.TextField(max_length=500, blank=True, null=True, verbose_name='描述')
+   feedbacktime = models.DateField(verbose_name='反馈时间',null=True,blank=True)
+   plantime = models.DateField(verbose_name='计划完成时间',null=True,blank=True)
+   manager = models.ForeignKey(sys, db_column='manager',null=True,blank=True, related_name='r3',to_field='id', limit_choices_to={'type': '5'}, verbose_name='负责人', on_delete=models.PROTECT)
+   zt = models.ForeignKey(sys, db_column='zt',related_name='r1',null=True,blank=True, to_field='id', limit_choices_to={'type': '6'}, verbose_name='状态', on_delete=models.PROTECT)
+   memo = models.IntegerField(null=False, blank=False, choices=((0, '未完成'), (1, '完成')), default=0, verbose_name='项目经理测试')
+   recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+   updatetime = models.DateTimeField(blank=True, null=True, auto_now=True)
+   sort = models.IntegerField(default=99, verbose_name='排序')
+
+   class Meta:
+      managed = True
+      db_table = 'xuqiu'
+      verbose_name = '需求和BUG'
       verbose_name_plural = verbose_name
       sorted('sort')

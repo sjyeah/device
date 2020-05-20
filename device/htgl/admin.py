@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Device, Printer, sys, RecordApply, Cartridge, RecordBorrow, department, member, PrinterType, ecs, ecsstatus
+from .models import Device, Printer, sys, RecordApply, Cartridge, RecordBorrow, department, member, PrinterType, ecs, \
+    ecsstatus,xuqiu
 
 admin.site.site_header = '设备管理后台'
 admin.site.site_title = '设备管理'
@@ -125,6 +126,13 @@ class ecsAdmin(admin.ModelAdmin):
     list_display = ['id', 'ip', 'internetip', 'os', 'net', 'cpu', 'ram', 'disk', 'status']
     list_filter = ['status', 'net', 'cpu']
     search_fields = ['ip']
+    list_per_page = 20
+
+class xuqiuAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'content', 'plantime', 'manager', 'zt']
+    list_filter = ['title', 'zt', 'manager']
+    search_fields = ['title']
+    list_per_page = 20
 
 
 admin.site.register(ecs, ecsAdmin)
@@ -138,3 +146,4 @@ admin.site.register(sys, sysAdmin)
 admin.site.register(RecordApply, RecordApplyAdmin)
 admin.site.register(Cartridge, CartridgeAdmin)
 admin.site.register(RecordBorrow, RecordBorrowAdmin)
+admin.site.register(xuqiu, xuqiuAdmin)
