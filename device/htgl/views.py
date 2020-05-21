@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout, login, authenticate
 from django.shortcuts import render, redirect
 from . import models
 
@@ -14,7 +17,7 @@ def borrowList(request):
 def borrowAudit(request):
    obj = models.RecordBorrow.objects.get(id=request.POST.get('bid'))
    obj2 = models.sys.objects.get(id=16)
-   if obj.status!=obj2:
+   if obj.status != obj2:
       obj.status = obj2
       obj.save();
       for dev in obj.devices.all():
@@ -29,10 +32,10 @@ def borrowAudit(request):
 def borrowAudit2(request, id):
    obj3 = models.sys.objects.get(id=16)
    obj = models.RecordBorrow.objects.get(id=id)
-   if obj.status!=obj3:
-     obj2 = models.sys.objects.get(id=17)
-     obj.status = obj2
-     obj.save();
+   if obj.status != obj3:
+      obj2 = models.sys.objects.get(id=17)
+      obj.status = obj2
+      obj.save();
    return redirect("/device/")
 
 
@@ -139,12 +142,33 @@ def cartridgeDelete(request, id):
    return redirect("/cartrdge/")
 
 
+def htgl(request):
+   return render(request, '/admin/htgl')
+
+
 def index(request):
    username = None
    if request.user.is_authenticated:
-      username = request.user.username
+      username = request.user.first_name
    return render(request, 'index.html', {'username': username})
 
 
-def htgl(request):
-   return render(request, '/admin/htgl')
+def login_user(request):
+   if request.method == "POST":
+      user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+      if user is not None:
+         if user.is_active:
+            login(request, user)
+            return redirect('/index')
+         else:
+            return render(request, 'login.html', {'msg': '账号已经禁用'})
+      else:
+         return render(request, 'login.html', {'msg': '用户名或者密码不正确'})
+   else:
+      return render(request, 'login.html')
+
+
+@login_required
+def logout(request):
+   auth_logout(request)
+   return redirect('/login')
