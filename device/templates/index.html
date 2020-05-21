@@ -15,8 +15,8 @@
             <h1><a href="/">设备管理系统</a></h1>
         </td>
         <td id="user-tools" style="border: 0;">
-            欢迎,<strong>{{request.user}}</strong><a href="/">返回首页</a> /
-            <a href="/admin/password_change/">修改密码</a> /<a href="/admin/logout/">注销</a>
+            欢迎,<strong>{{username}}</strong><a href="/">返回首页</a> /
+            <a href="/admin/password_change/">修改密码</a> /<a href="/logout/">注销</a>
         </td>
     </tr>
     <tr>
@@ -51,7 +51,7 @@
                                 <td><a href="/admin/htgl/recordborrow/add/" class="addlink" target="contentframe">增加</a></td>
                             </tr>
                            <tr>
-                                <th scope="row"><a href="/device/" target="contentframe">借用审批</a></th>
+                                <th scope="row"><a href="/device/" target="contentframe">借用审批</a></th><td></td>
                             </tr>
                             <tr style="height: 20px;"></tr>
                         </table>
@@ -92,6 +92,10 @@
                             <tr>
                                 <th scope="row"><a href="/admin/htgl/ecsstatus/" target="contentframe">服务器状态</a></th>
                                 <td><a href="/admin/htgl/ecsstatus/add/" class="addlink" target="contentframe">增加</a></td>
+                            </tr>
+                           <tr>
+                                <th scope="row"><a href="/admin/" target="contentframe">系统后台</a></th>
+                                <td></td>
                             </tr>
                         </table>
                     </td>

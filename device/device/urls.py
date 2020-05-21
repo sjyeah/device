@@ -19,21 +19,25 @@ from django.conf.urls import url
 from htgl import views
 
 urlpatterns = [
-   path('admin/', views.index),
+   # path('admin/', views.index),
    url(r'^admin/', admin.site.urls),
+   path('login/', views.login_user),
+   path('logout/', views.logout),
    path('device/audit/', views.borrowAudit),
    path('device/disagree/<int:id>', views.borrowAudit2),
-   path('device/<int:id>', views.deviceDetail),
-   path('device/delete/<int:id>', views.deviceDelete),
-   path('device/update/<intid>', views.deviceUpdate),
-   path('device/add/', views.deviceAdd),
+   # path('device/<int:id>', views.deviceDetail),
+   # path('device/delete/<int:id>', views.deviceDelete),
+   # path('device/update/<intid>', views.deviceUpdate),
+   # path('device/add/', views.deviceAdd),
    path('device/', views.borrowList),
-   path('cartridge/', views.cartridgeList),
-   path('cartridge/detail/<int:id>', views.cartridgeDetail),
-   path('cartridge/update/<int:id>', views.cartridgeUpdate),
-   path('cartridge/delete/<int:id>', views.cartridgeDelete),
-   path('cartridge/add/', views.cartridgeAdd),
+   # path('cartridge/', views.cartridgeList),
+   # path('cartridge/detail/<int:id>', views.cartridgeDetail),
+   # path('cartridge/update/<int:id>', views.cartridgeUpdate),
+   # path('cartridge/delete/<int:id>', views.cartridgeDelete),
+   # path('cartridge/add/', views.cartridgeAdd)
+
    # url(r'^device/', views.deviceList),
-   path('', views.index)
+   path('', views.index),
+   path('index/', views.index)
 
 ]
