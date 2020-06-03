@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+   <title></title>
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+   <script type="text/javascript" src="/admin/jsi18n/"></script>
+   <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+   <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+   <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+   <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+   <script type="text/javascript" src="/static/admin/js/core.js"></script>
+   <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+   <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+   <script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+   <script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+   <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+   <meta name="robots" content="NONE,NOARCHIVE">
+</head>
+<body class=" app-htgl model-recordborrow change-form" data-admin-utc-offset="28800">
+<!-- Container -->
+<div id="container">
+   <!-- Content -->
+   <div id="content" class="colM" style="margin-top:-10px;">
+      <a onclick="javascript:history.back(-1)" style="cursor: pointer;color: green;">
+         返回
+      </a>
+      &nbsp;&nbsp;&nbsp; 增加 设备借用
+      <div id="content-main">
+         <form action="/borrow/add" method="post" id="recordborrow_form" novalidate>
+            {%csrf_token%}
+            <div>
+               <fieldset class="module aligned ">
+                  <div class="form-row field-reason">
+                     <div>
+                        <label for="id_reason">借用原因:</label>
+                        <textarea name="reason" cols="40" rows="10" class="vLargeTextField" maxlength="500" id="id_reason">
+</textarea>
+                     </div>
+                  </div>
+                  <div class="form-row field-stime">
+                     <div>
+                        <label for="id_stime">借用时间:</label>
+                        <input type="text" name="stime" class="vDateField" size="10" id="id_stime">
+                     </div>
+                  </div>
+                  <div class="form-row field-etime">
+                     <div>
+                        <label for="id_etime">归还时间:</label>
+                        <input type="text" name="etime" class="vDateField" size="10" id="id_etime">
+                     </div>
+                  </div>
+                  <div class="form-row field-devices">
+                     <div>
+                        <label class="required">授权菜单:</label>
+                        <ul style="width: 90%;" id="id_devices">
+                           <li style="display: block;width: 200px;float: left;"><label for="id_devices_0"><input type="checkbox" name="devices" value="2" id="id_devices_0">
+                              ThinkCentre M4350T</label>
+                           </li>
+                           <li style="display: block;width: 200px;float: left;"><label for="id_devices_1"><input type="checkbox" name="devices" value="3" id="id_devices_1">
+                              华为matebook X</label>
+                           </li>
+                           <li style="display: block;width: 200px;float: left;"><label for="id_devices_2"><input type="checkbox" name="devices" value="4" id="id_devices_2">
+                              华为（干部系统）</label>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="form-row field-userid">
+                     <div>
+                        <label class="required" for="id_userid">申请人:</label>
+
+                        <div class="related-widget-wrapper">
+                           <select name="userid" required id="id_userid">
+                              <option value="" selected>---------</option>
+                           </select>
+                           <a class="related-widget-wrapper-link change-related" id="change_id_userid"
+                              data-href-template="/admin/htgl/member/__fk__/change/?_to_field=dingid&amp;_popup=1"
+                              title="更改选中的人员"><img src="/static/admin/img/icon-changelink.svg" alt="修改"></a><a
+                             class="related-widget-wrapper-link add-related" id="add_id_userid"
+                             href="/admin/htgl/member/add/?_to_field=dingid&amp;_popup=1"
+                             title="增加另一个 人员"><img src="/static/admin/img/icon-addlink.svg" alt="增加"></a><a
+                             class="related-widget-wrapper-link delete-related" id="delete_id_userid"
+                             data-href-template="/admin/htgl/member/__fk__/delete/?_to_field=dingid&amp;_popup=1"
+                             title="取消选中 人员"><img src="/static/admin/img/icon-deletelink.svg" alt="删除"></a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-row field-depid">
+                     <div>
+                        <label class="required" for="id_depid">申请处室:</label>
+
+                        <div class="related-widget-wrapper">
+                           <select name="depid" required id="id_depid">
+                              <option value="" selected>---------</option>
+                           </select>
+                           <a class="related-widget-wrapper-link change-related" id="change_id_depid"
+                              data-href-template="/admin/htgl/department/__fk__/change/?_to_field=dingid&amp;_popup=1"
+                              title="更改选中的部门"><img src="/static/admin/img/icon-changelink.svg" alt="修改"></a><a
+                             class="related-widget-wrapper-link add-related" id="add_id_depid"
+                             href="/admin/htgl/department/add/?_to_field=dingid&amp;_popup=1"
+                             title="增加另一个 部门"><img src="/static/admin/img/icon-addlink.svg" alt="增加"></a><a
+                             class="related-widget-wrapper-link delete-related" id="delete_id_depid"
+                             data-href-template="/admin/htgl/department/__fk__/delete/?_to_field=dingid&amp;_popup=1"
+                             title="取消选中 部门"><img src="/static/admin/img/icon-deletelink.svg" alt="删除"></a>
+                        </div>
+                     </div>
+                  </div>
+               </fieldset>
+               <div class="submit-row">
+                  <input type="submit" value="保存" class="default" name="_save">
+                  <input type="submit" value="保存并增加另一个" name="_addanother">
+                  <input type="submit" value="保存并继续编辑" name="_continue">
+               </div>
+               <script type="text/javascript"
+                       id="django-admin-form-add-constants"
+                       src="/static/admin/js/change_form.js"
+                       data-model-name="recordborrow">
+               </script>
+
+               <script type="text/javascript"
+                       id="django-admin-prepopulated-fields-constants"
+                       src="/static/admin/js/prepopulate_init.js"
+                       data-prepopulated-fields="[]">
+               </script>
+            </div>
+         </form>
+      </div>
+      <br class="clear">
+   </div>
+   <!-- END Content -->
+   <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

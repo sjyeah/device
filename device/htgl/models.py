@@ -129,7 +129,7 @@ class RecordBorrow(models.Model):
    devices = models.ManyToManyField(Device, verbose_name='借用设备')
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
-   reason = models.CharField(max_length=500, blank=True, null=True, verbose_name='借用原因')
+   reason = models.TextField(max_length=500, blank=True, null=True, verbose_name='借用原因')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
    status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='jyzt', to_field='id', limit_choices_to={'type': '3'},
                               verbose_name='状态', on_delete=models.PROTECT)

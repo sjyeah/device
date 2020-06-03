@@ -7,6 +7,18 @@ from . import models
 
 
 # Create your views here.
+def borrowAdd(request):
+   if request.method == "POST":
+      data = request.POST
+   else:
+      data = request.GET
+      sysobj = models.sys.objects.get(id=13)
+      devices = models.Device.objects.filter(status=sysobj).order_by('type')
+      data = {'dlist': devices}
+      return render(request, 'borrow/add.html', data)
+
+
+
 def borrowList(request):
    data = {}
    dlist = models.RecordBorrow.objects.all()

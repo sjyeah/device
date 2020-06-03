@@ -1,6 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.models import Permission
+from django.forms import CheckboxSelectMultiple
+
 from .models import Device, Printer, sys, RecordApply, Cartridge, RecordBorrow, department, member, PrinterType, ecs, \
     ecsstatus,xuqiu
+from django import forms
 
 admin.site.site_header = '设备管理后台'
 admin.site.site_title = '设备管理'
@@ -91,6 +95,14 @@ class RecordApplyAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 
+class borrowForm(forms.ModelForm):
+   devices = forms.ModelMultipleChoiceField(widget=CheckboxSelectMultiple, queryset=Device.objects.all(), label='授权菜单')
+
+   class Meta:
+      model = RecordBorrow
+      fields = ('id', 'reason', 'stime', 'etime', 'devices', 'userid', 'depid')
+
+
 class RecordBorrowAdmin(admin.ModelAdmin):
     def 借用的设备(self):
         return [a.model for a in self.devices.all()]
@@ -98,6 +110,7 @@ class RecordBorrowAdmin(admin.ModelAdmin):
     list_filter = ['depid']
     search_fields = ['userid']
     list_per_page = 20
+    form=borrowForm
 
 
 class PrinterAdmin(admin.ModelAdmin):
