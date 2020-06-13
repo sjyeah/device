@@ -38,6 +38,8 @@ urlpatterns = [
 
    # url(r'^device/', views.deviceList),
    path('', views.index),
-   path('index/', views.index)
-
+   path('index/', views.index),
+   path('api/people/', views.people_list),
+   path('api/people/update/', views.people_update),
+   path('api/people/search/', views.people_search),
 ]
