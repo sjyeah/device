@@ -236,3 +236,24 @@ class xuqiu(models.Model):
       verbose_name = '需求和BUG'
       verbose_name_plural = verbose_name
       sorted('sort')
+
+
+#region 临时任务
+class people(models.Model):
+   name=models.CharField(max_length=10, verbose_name='姓名')
+   department=models.CharField(max_length=10,verbose_name='单位')
+   duty=models.CharField(max_length=10,verbose_name='职务')
+   tel=models.CharField(max_length=11,verbose_name='电话')
+   zt=models.IntegerField(choices=((1,'是'),(2,'否')),default=0, verbose_name='签到')
+   sort=models.IntegerField(default=99)
+
+   class Meta:
+      managed = True
+      db_table = 'people'
+      verbose_name = '参会人员'
+      verbose_name_plural = verbose_name
+      sorted('sort')
+
+   def __str__(self):
+      return self.name
+#endregion
