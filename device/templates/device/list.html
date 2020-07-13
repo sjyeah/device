@@ -36,20 +36,16 @@
             <div class="results">
                <table id="result_list" style="line-height: 25px;">
                   <thead>
-                  <tr style="line-height: 25px;text-indent: 10px;">
-                     <th scope="col">
-                        <div>ID</div>
-                     </th>
-                     <th scope="col">
-                        <div class="text">借用的设备</div>
+                  <tr style="line-height: 25px;text-indent: 10px;"><th scope="col" class="sortable column-pic">
+                        <div class="text">申请原因</div>
+                        <div class="clear"></div>
                      </th>
                      <th scope="col" class="sortable column-pic">
                         <div class="text">申请人</div>
                         <div class="clear"></div>
                      </th>
-                     <th scope="col" class="sortable column-pic">
-                        <div class="text">申请原因</div>
-                        <div class="clear"></div>
+                     <th scope="col">
+                        <div class="text">借用的设备</div>
                      </th>
                      <th scope="col" class="sortable column-pic">
                         <div class="text">借用时间</div>
@@ -67,14 +63,13 @@
                   </thead>
                   {%for d in list%}
                   <tr class="row1" style="height: 25px;padding: 0;margin: 0;line-height: 25px;">
-                     <th style="line-height: 25px;">{{d.id}}</th>
+                     <td style="line-height: 25px;">{{d.reason}}</td>
+                     <td style="line-height: 25px;">{{d.userid}}({{ d.userid.depid }})</td>
                      <td style="line-height: 25px;">
                         {% for item in d.devices.all %}
                         {{item}},
                         {% endfor %}
                      </td>
-                     <td style="line-height: 25px;">{{d.userid}}</td>
-                     <td style="line-height: 25px;">{{d.reason}}</td>
                      <td style="line-height: 25px;">{{d.stime}}-{{d.etime}}</td>
                      <td style="line-height: 25px;">{{d.status}}</td>
                      <td style="width:90px;">

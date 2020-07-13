@@ -30,7 +30,8 @@ urlpatterns = [
    # path('device/delete/<int:id>', views.deviceDelete),
    # path('device/update/<intid>', views.deviceUpdate),
    # path('device/add/', views.deviceAdd),
-   path('device/', views.borrowList),
+   path('device/', views.deviceList),
+   path('borrow/', views.borrowList),
    # path('cartridge/', views.cartridgeList),
    # path('cartridge/detail/<int:id>', views.cartridgeDetail),
    # path('cartridge/update/<int:id>', views.cartridgeUpdate),
@@ -43,4 +44,7 @@ urlpatterns = [
    path('api/people/', views.people_list),
    path('api/people/update/', views.people_update),
    path('api/people/search/', views.people_search),
+   path('api/advice/', views.advice_list),
+   path('api/advice/add/', views.advice_add),
+   #path('api/advice/delete', views.advice_delete),
 ]
