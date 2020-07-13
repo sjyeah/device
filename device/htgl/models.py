@@ -129,7 +129,7 @@ class RecordBorrow(models.Model):
    devices = models.ManyToManyField(Device, verbose_name='借用设备')
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
-   reason = models.TextField(max_length=500, blank=True, null=True, verbose_name='借用原因')
+   reason = models.TextField(max_length=500, blank=True, null=True, verbose_name='借用原因及要求')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
    status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='jyzt', to_field='id', limit_choices_to={'type': '3'},
                               verbose_name='状态', on_delete=models.PROTECT)
@@ -142,7 +142,7 @@ class RecordBorrow(models.Model):
       verbose_name = '设备借用'
       verbose_name_plural = verbose_name
 
-
+#硒鼓申领
 class RecordApply(models.Model):
    userid = models.CharField(max_length=20, blank=True, null=True)
    username = models.CharField(max_length=20, blank=True, null=True, verbose_name='申领人')
@@ -256,4 +256,21 @@ class people(models.Model):
 
    def __str__(self):
       return self.name
+
+class advice(models.Model):
+   name = models.CharField(max_length=10, verbose_name='姓名')
+   department = models.CharField(max_length=10, verbose_name='单位')
+   userid=models.CharField(max_length=15,verbose_name='用户id')
+   content = models.TextField(max_length=500, verbose_name='内容')
+   zt = models.IntegerField(choices=((0,'未确认'),(1, '是'), (2, '否')), default=0, verbose_name='状态')
+   recordtime=models.DateTimeField(auto_now_add=True)
+   class Meta:
+      managed = True
+      db_table = 'advice'
+      verbose_name = '意见需求'
+      verbose_name_plural = verbose_name
+      #sorted('sort')
+   def __str__(self):
+      return self.name
+
 #endregion
