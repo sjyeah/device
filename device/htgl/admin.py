@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Permission
 from django.forms import CheckboxSelectMultiple
 
-from .models import Device, Printer, sys, RecordApply, Cartridge, RecordBorrow, department, member, PrinterType, ecs, \
-    ecsstatus,xuqiu
+from .models import *
 from django import forms
 
 admin.site.site_header = '设备管理后台'
@@ -147,7 +146,10 @@ class xuqiuAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_per_page = 20
 
-
+class adviceAdmin(admin.ModelAdmin):
+    list_display = ['content', 'name', 'userid']
+    search_fields = ['content', 'name']
+    list_per_page = 50
 admin.site.register(ecs, ecsAdmin)
 admin.site.register(ecsstatus, ecsstatusAdmin)
 admin.site.register(Printer, PrinterAdmin)
@@ -160,3 +162,4 @@ admin.site.register(RecordApply, RecordApplyAdmin)
 admin.site.register(Cartridge, CartridgeAdmin)
 admin.site.register(RecordBorrow, RecordBorrowAdmin)
 admin.site.register(xuqiu, xuqiuAdmin)
+admin.site.register(advice, adviceAdmin)

@@ -1,3 +1,6 @@
+import os
+import random
+import string
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
@@ -12,6 +15,8 @@ import json
 
 
 # Create your views here.
+
+
 def borrowAdd(request):
    if request.method == "POST":
       data = request.POST
@@ -256,10 +261,12 @@ def advice_add(request):
             advice.content = result["content"]
             advice.userid = result["userid"]
             advice.department = result["department"]
+            if result["pic"]:
+               advice.pic = result["pic"]
             advice.save()
-            return HttpResponse("ok")
+            return HttpResponse('ok')
          else:
-            return HttpResponse("password")
+            return HttpResponse('password')
    except Exception as e:
       return HttpResponse(str(e))
 
@@ -270,11 +277,48 @@ def advice_list(request: HttpRequest):
       try:
          result = simplejson.loads(request.body)
          if result["PWD"] == "%^*IFGbgi2332322253gr":
-            dlist = models.advice.objects.all()
+            if result["zt"] == "0":
+               dlist = models.advice.objects.all()
+            else:
+               dlist = models.advice.objects.filter(userid=result["userid"])
             data = {'advice': serializers.serialize("json", dlist, ensure_ascii=False)}
             return JsonResponse(data, charset='utf-8', json_dumps_params={'ensure_ascii': False})
          else:
             return JsonResponse({'msg': 'password'})
       except Exception as e:
          return JsonResponse({'msg': str(e)})
+
+
+@csrf_exempt
+def advice_addpic(request):
+   if request.method == "POST":
+      myFile = request.FILES.get("file", None)
+      if myFile:
+         dir = '/root/zzb/device/files/upload/advice/'
+         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16))
+         type = os.path.splitext(myFile.name)[1]
+         fname = ran_str + type
+         destination = open(dir + fname, 'wb+')
+         for chunk in myFile.chunks():
+            destination.write(chunk)
+         destination.close()
+         return JsonResponse({'msg': 'ok','fname': fname})
+      else:
+         return JsonResponse({'msg': 'erroe'})
+
+
+@csrf_exempt
+def Cartridge_update(request):
+   try:
+      if request.method == "POST":
+         result = simplejson.loads(request.body)
+         if result["PWD"] == "%^*IFGbgi2332322253gr":
+            xx = models.Cartridge.objects.get(id=result["id"])
+            xx.number = result["num"]
+            xx.save()
+            return HttpResponse("ok")
+         else:
+            return HttpResponse("password")
+   except Exception as e:
+      return HttpResponse(str(e))
 # endregion
