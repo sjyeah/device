@@ -272,15 +272,64 @@ def advice_add(request):
 
 
 @csrf_exempt
+def advice_edit(request):
+   try:
+      if request.method == "POST":
+         result = simplejson.loads(request.body)
+         if result["PWD"] == "%^*IFGbgi2332322253gr":
+            advice = models.advice.objects.get(id=result["id"],userid=result["userid"])
+            advice.content = result["content"]
+            if result["pic"]:
+               advice.pic = result["pic"]
+            else:
+               advice.pic=None
+            advice.save()
+            return HttpResponse('ok')
+         else:
+            return HttpResponse('password')
+   except Exception as e:
+      print(str(e))
+      return HttpResponse(str(e))
+
+@csrf_exempt
+def advice_delete(request):
+   try:
+      if request.method == "POST":
+         result = simplejson.loads(request.body)
+         if result["PWD"] == "%^*IFGbgi2332322253gr":
+            advice = models.advice.objects.get(id=result["id"],userid=result["userid"])
+            advice.delete()
+            return HttpResponse('ok')
+         else:
+            return HttpResponse('password')
+   except Exception as e:
+      print(str(e))
+      return HttpResponse(str(e))
+
+
+@csrf_exempt
+def advice_detail(request):
+   req = request.GET
+   try:
+      advice = models.advice.objects.get(id=req.get('id'))
+      data = {'content': advice.content,'pic':advice.pic}
+      #print(data)
+   except Exception as e:
+      print(e)
+   return JsonResponse(data, json_dumps_params={'ensure_ascii': False})
+   #return  HttpResponse("ddd")
+
+
+@csrf_exempt
 def advice_list(request: HttpRequest):
    if request.method == "POST":
       try:
          result = simplejson.loads(request.body)
          if result["PWD"] == "%^*IFGbgi2332322253gr":
             if result["zt"] == "0":
-               dlist = models.advice.objects.all()
+               dlist = models.advice.objects.all().order_by('-id')
             else:
-               dlist = models.advice.objects.filter(userid=result["userid"])
+               dlist = models.advice.objects.filter(userid=result["userid"]).order_by('-id')
             data = {'advice': serializers.serialize("json", dlist, ensure_ascii=False)}
             return JsonResponse(data, charset='utf-8', json_dumps_params={'ensure_ascii': False})
          else:
@@ -302,7 +351,7 @@ def advice_addpic(request):
          for chunk in myFile.chunks():
             destination.write(chunk)
          destination.close()
-         return JsonResponse({'msg': 'ok','fname': fname})
+         return JsonResponse({'msg': 'ok', 'fname': fname})
       else:
          return JsonResponse({'msg': 'erroe'})
 

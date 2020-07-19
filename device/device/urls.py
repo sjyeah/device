@@ -47,6 +47,9 @@ urlpatterns = [
    path('api/advice/', views.advice_list),
    path('api/advice/add/', views.advice_add),
    path('api/advice/addpic/', views.advice_addpic),
+   path('api/advice/edit/', views.advice_edit),
+   path('api/advice/detail/', views.advice_detail),
+   path('api/advice/delete/', views.advice_delete),
    path('api/Cartridge/update/', views.Cartridge_update),
    #path('api/advice/delete', views.advice_delete),
 ]

@@ -258,9 +258,9 @@ class people(models.Model):
       return self.name
 
 class advice(models.Model):
-   name = models.CharField(max_length=10,null=True,blank=True, verbose_name='姓名')
-   department = models.CharField(max_length=10, null=True,blank=True,verbose_name='单位')
-   userid=models.CharField(max_length=15,null=True,blank=True,verbose_name='用户id')
+   name = models.CharField(max_length=20,null=True,blank=True, verbose_name='姓名')
+   department = models.CharField(max_length=20, null=True,blank=True,verbose_name='单位')
+   userid=models.CharField(max_length=50,null=True,blank=True,verbose_name='用户id')
    content = models.TextField(max_length=500, verbose_name='内容')
    pic=models.CharField(max_length=30,null=True,blank=True,verbose_name='图片')
    zt = models.IntegerField(choices=((0,'未确认'),(1, '是'), (2, '否')), default=0, verbose_name='状态')
@@ -271,7 +271,5 @@ class advice(models.Model):
       verbose_name = '意见需求'
       verbose_name_plural = verbose_name
       #sorted('sort')
-   def __str__(self):
-      return self.name
 
 #endregion
