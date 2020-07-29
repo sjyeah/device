@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="/static/css/app2.css" rel="stylesheet">
+  <link href="/static/css/my.css" rel="stylesheet">
+  <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+<div class="main">
+  <main class="content">
+    <div class="container-fluid p-0">
+      <h1 class="h3 mb-3" style="margin-top: -10px;">{% block title %}{% endblock %}</h1>
+    {% if msg %}
+   <div class="alert {{ class }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="alert-message">
+         <strong>{{ msg }}</strong>
+      </div>
+   </div>
+   <script src="/static/js/app.js"></script>
+{% endif %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>{% block title1 %}{% endblock %}</h4>
+              <h6 class="card-subtitle text-muted">{% block title2 %}{% endblock %}</h6>
+            </div>
+            <div class="card-body" style="margin-top: -10px;">
+            {% block actee %}
+         <form action="" method="post">{% endblock %}
+      {% csrf_token %}
+               {% block content %}{% endblock %}
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -103,8 +103,8 @@ class Device(models.Model):
    sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
    type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', limit_choices_to={'type': '1'},
                             on_delete=models.PROTECT)
-   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, verbose_name='责任处室', on_delete=models.PROTECT)
-   memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True, verbose_name='责任人', on_delete=models.PROTECT)
+   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True,blank=True, verbose_name='责任处室', on_delete=models.PROTECT)
+   memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True,blank=True, verbose_name='责任人', on_delete=models.PROTECT)
    room = models.CharField(max_length=20, blank=True, null=True, verbose_name='房间号')
    buytime = models.DateField(db_column='buyTime', blank=True, null=True, verbose_name='购置时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')

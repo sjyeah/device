@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+   <title>{% block headtitle %}{% endblock %}</title>
+   <link rel="stylesheet" type="text/css" href="/static/css/page.css">
+   <link rel="stylesheet" type="text/css" href="/static/css/app2.css">
+   <link rel="stylesheet" type="text/css" href="/static/css/my.css">
+   {% block headlink %}{% endblock %}
+</head>
+<body>
+{% if msg %}
+   <div class="alert {{ class }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="alert-message">
+         <strong>{{ msg }}</strong>
+      </div>
+   </div>
+   <script src="/static/js/app.js"></script>
+{% endif %}
+<div class="main">
+  <main class="content">
+    <div class="container-fluid p-0">
+       <table width="100%;" style="margin-top: -20px;">
+          <tr>
+             <td style="font-weight: bold;font-size: 16px;height: 30px;line-height: 30px;">
+                {% block title %}{% endblock %}</td>
+             <td style="border:0;">
+             </td>
+             <td style="text-align: right;">
+                <a class="btn btn-pill btn-primary" style="height: 22px;line-height: 21px;font-size: 13px;padding-top: 0;color: white;" href="{% block url %}{% endblock %}">
+                   {% block link %}{% endblock %}</a>
+             </td>
+          </tr>
+       <tr style="height: 10px;"></tr>
+       </table>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header" style="height: 40px;">
+              <h5 class="card-title">{% block title1 %}{% endblock %}</h5>
+            </div>
+            <div class="card-body">
+               {% block content %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -6,6 +6,8 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout, login, authenticate
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
+
 from . import models
 from django.http import HttpResponse, JsonResponse, HttpRequest
 import simplejson
@@ -64,9 +66,18 @@ def borrowAudit2(request, id):
 
 
 def deviceList(request):
-   data = {}
-   dlist = models.Device.objects.all()
-   data['list'] = dlist
+   obj = models.department.objects.all().order_by('sort')
+   if request.method == "GET":
+      dlist = models.Device.objects.filter(depid=obj[0])
+   elif request.method == "POST":
+      if request.POST.get('dep') == '':
+         dlist = models.Device.objects.all()
+      else:
+         obj2=models.department.objects.get(id=request.POST.get('dep'))
+         dlist = models.Device.objects.filter(depid_id=request.POST.get('dep'))
+         data = {'devicelist': dlist, 'dep': obj, 'cur': obj2}
+         return render(request, 'device/list.html', data)
+   data = {'devicelist': dlist, 'dep': obj,'cur':request.POST.get('dep')}
    return render(request, 'device/list.html', data)
 
 
@@ -84,39 +95,48 @@ def deviceDelete(request, id):
    return redirect("/device/")
 
 
-def deviceUpdate(request, id):
-   obj = models.Device.objects.get(id=id)
-   obj2 = models.sys.objects.get(id=request.POST.get('type'))
-   obj.model = request.POST.get('model')
-   obj.type = obj2
-   obj.brand = request.POST.get('brand')
-   if request.POST.get('buytime') != '':
-      x = request.POST.get('buytime').replace('/', '-')
-      obj.buytime = datetime.strptime(x, "%Y-%m-%d")
-   obj.sn = request.POST.get('sn')
-   obj.memo = request.POST.get('memo')
-   obj.status = request.POST.get('status')
-   obj.save();
-   return redirect("/device/")
+def deviceEdit(request, id):
+   if request.method == "GET":
+      obj = models.Device.objects.get(id=id)
+      type = models.sys.objects.filter(type='1')
+      zt = models.sys.objects.filter(type='2')
+      dep = models.department.objects.all()
+      mem = models.member.objects.filter(depid=obj.depid)
+      data = {'type': type, 'zt': zt, 'dep': dep, 'device': obj, 'mem': mem}
+      return render(request, 'device/edit.html', data)
+   elif request.method == "POST":
+      return redirect("/device/")
 
 
 def deviceAdd(request):
    if request.method == "POST":
       obj = models.Device.objects.create()
       obj.model = request.POST.get('model')
-      obj.type = request.POST.get('sys')
-      obj.brand = request.POST.get('brand')
+      obj.type = models.sys.objects.get(id=request.POST.get('type'))
+      # obj.brand = request.POST.get('brand')
       obj.sn = request.POST.get('sn')
       obj.memo = request.POST.get('memo')
-      if request.POST.get('buytime') != '':
-         x = request.POST.get('buytime').replace('/', '-')
-         obj.buytime = datetime.strptime(x, "%Y-%m-%d")
+      obj.depid = models.department.objects.get(id=request.POST.get('dep'))
+      if request.POST.get('member') != '':
+         obj.memid = models.member.objects.get(id=request.POST.get('member'))
       obj.save()
       return redirect("/device/")
-   data = {}
-   list = models.sys.objects.all()
-   data['sys'] = list
-   return render(request, 'device/add.html', data)
+   else:
+      type = models.sys.objects.filter(type='1')
+      zt = models.sys.objects.filter(type='2')
+      dep = models.department.objects.all()
+      data = {'type': type, 'zt': zt, 'dep': dep}
+      return render(request, 'device/add.html', data)
+
+
+def memberList(request):
+   if request.method == "POST":
+      dlist = models.member.objects.filter(depid_id=request.POST.get('dep'))
+      result = ''
+      for d in dlist:
+         result += '<option value="' + str(d.id) + '">' + d.name + '</option>'
+      data = mark_safe(result)
+      return HttpResponse(data)
 
 
 def cartridgeList(request):
@@ -277,12 +297,12 @@ def advice_edit(request):
       if request.method == "POST":
          result = simplejson.loads(request.body)
          if result["PWD"] == "%^*IFGbgi2332322253gr":
-            advice = models.advice.objects.get(id=result["id"],userid=result["userid"])
+            advice = models.advice.objects.get(id=result["id"], userid=result["userid"])
             advice.content = result["content"]
             if result["pic"]:
                advice.pic = result["pic"]
             else:
-               advice.pic=None
+               advice.pic = None
             advice.save()
             return HttpResponse('ok')
          else:
@@ -291,13 +311,14 @@ def advice_edit(request):
       print(str(e))
       return HttpResponse(str(e))
 
+
 @csrf_exempt
 def advice_delete(request):
    try:
       if request.method == "POST":
          result = simplejson.loads(request.body)
          if result["PWD"] == "%^*IFGbgi2332322253gr":
-            advice = models.advice.objects.get(id=result["id"],userid=result["userid"])
+            advice = models.advice.objects.get(id=result["id"], userid=result["userid"])
             advice.delete()
             return HttpResponse('ok')
          else:
@@ -312,12 +333,12 @@ def advice_detail(request):
    req = request.GET
    try:
       advice = models.advice.objects.get(id=req.get('id'))
-      data = {'content': advice.content,'pic':advice.pic}
-      #print(data)
+      data = {'content': advice.content, 'pic': advice.pic}
+      # print(data)
    except Exception as e:
       print(e)
    return JsonResponse(data, json_dumps_params={'ensure_ascii': False})
-   #return  HttpResponse("ddd")
+   # return  HttpResponse("ddd")
 
 
 @csrf_exempt
