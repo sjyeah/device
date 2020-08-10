@@ -12,7 +12,7 @@
       </tr>
       <tr style="border-bottom: 1px solid #ddd;">
          <td class="inputlabel">序列号</td>
-         <td class="inputcontent"><input type="text" class="form-control" value="{{ device.sn }}" name="sn"></td>
+         <td class="inputcontent"><input type="text" class="form-control" value="{{ device.sn|default_if_none:'' }}" name="sn"></td>
          <td></td>
       </tr>
       <tr style="border-bottom: 1px solid #ddd;">
@@ -45,7 +45,7 @@
                         headers: {
                             "X-CSRFToken": '{{ csrf_token }}',
                         },
-                        data: {'dep': value,'device':{{device.id}}},
+                        data: {'dep': value, 'device':{{device.id}}},
                         success: function (data) {
                             obj.innerHTML = data;
                         }
@@ -58,6 +58,7 @@
       <tr style="border-bottom: 1px solid #ddd;">
          <td class="inputlabel">责任人</td>
          <td class="inputcontent"><select class="custom-select" name="member" id="member">
+         <option value="">--------</option>
             {% for d in mem %}
                <option value="{{ d.id }}" {% if device.memid == d %}selected{% endif %}>{{ d.name }}</option>
             {% endfor %}
@@ -66,10 +67,15 @@
          <td></td>
       </tr>
       <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">房间号</td>
+         <td class="inputcontent"><input type="text" class="form-control" value="{{ device.room|default_if_none:'' }}" name="room"></td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
          <td class="inputlabel">状态</td>
          <td class="inputcontent"><select class="custom-select" name="zt">
             {% for d in zt %}
-               <option value="{{ d.id }}">{{ d.codename }}</option>
+               <option value="{{ d.id }}" {% if device.status == d %}selected{% endif %}>{{ d.codename }}</option>
             {% endfor %}
          </select></td>
          <td></td>

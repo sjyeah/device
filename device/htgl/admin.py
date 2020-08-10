@@ -95,7 +95,7 @@ class RecordApplyAdmin(admin.ModelAdmin):
 
 
 class borrowForm(forms.ModelForm):
-   devices = forms.ModelMultipleChoiceField(widget=CheckboxSelectMultiple, queryset=Device.objects.filter(status=13), label='授权菜单')
+   devices = forms.ModelMultipleChoiceField(widget=CheckboxSelectMultiple, queryset=Device.objects.filter(status=13), label='借用的设备')
 
    class Meta:
       model = RecordBorrow

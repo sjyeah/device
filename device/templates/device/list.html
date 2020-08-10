@@ -5,12 +5,23 @@
 {% block title1 %}
    <form action="/device/" method="post" id="myform">
       {% csrf_token %}
-      <select class="custom-select" name="dep" style="width: 300px;" onchange="submitForm();">
-         {% for d in dep %}
-            <option value="{{ d.id }}" {% if d == cur %}selected{% endif %}>{{ d.depname }}</option>
-         {% endfor %}
-         <option value="" {% if cur == '' %}selected{% endif %}>全部处室</option>
-      </select></form>
+      <table>
+         <tr>
+            <td><select class="custom-select" name="dep" style="width: 300px;" onchange="submitForm();">
+               {% for d in dep %}
+                  <option value="{{ d.id }}" {% if d == cur %}selected{% endif %}>{{ d.depname }}</option>
+               {% endfor %}
+               <option value="" {% if cur == '' %}selected{% endif %}>全部处室</option>
+            </select></td>
+            <td><input type="text" class="form-control" name="model" value="{{ model|default_if_none:'' }}" placeholder="品牌型号查询"></td>
+            <td>
+               <button type="submit" class="btn btn-primary" style="width: 70px;">查询</button>
+            </td>
+         </tr>
+      </table>
+
+
+   </form>
    <script type="text/javascript">
        function submitForm() {
            document.forms["myform"].submit();
@@ -31,6 +42,12 @@
             责任人
          </th>
          <th>
+            房间号
+         </th>
+         <th>
+            状态
+         </th>
+         <th>
             备注
          </th>
          <th style="background-color: white;width: 120px;">
@@ -40,10 +57,12 @@
       </thead>
       {% for d in devicelist %}
          <tr>
-            <td>{{ d.model }}</td>
+            <td><a href="/device/{{ d.id }}">{{ d.model }}</a></td>
             <td>{{ d.depid }}</td>
             <td>{{ d.memid|default_if_none:'' }}</td>
-            <td>{{ d.memo }}</td>
+            <td>{{ d.room|default_if_none:'' }}</td>
+            <td>{{ d.status.codename|default_if_none:'' }}</td>
+            <td>{{ d.memo|default_if_none:'' }}</td>
             <td>
                <a href="/device/edit/{{ d.id }}" class="btn btn-primary" style="width: 40px;height: 20px;font-size: 13px;padding: 0;color: white;">
                   编辑
@@ -54,5 +73,8 @@
             </td>
          </tr>
       {% endfor %}
+      <tr>
+         <td colspan="7" style="font-weight: bold;">{{ devicelist.count }}条记录</td>
+      </tr>
    </table>
 {% endblock %}

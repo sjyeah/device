@@ -1,112 +1,57 @@
-<!DOCTYPE html>
-
-<html lang="zh-Hans">
-<head>
-    <title>修改 设备管理 | 设备管理</title>
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
-    <script type="text/javascript" src="/admin/jsi18n/"></script>
-    <script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
-    <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
-    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
-    <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
-    <script type="text/javascript" src="/static/admin/js/core.js"></script>
-    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-    <script type="text/javascript" src="/static/admin/js/actions.js"></script>
-    <script type="text/javascript" src="/static/admin/js/urlify.js"></script>
-    <script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
-    <script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
-    <meta name="robots" content="NONE,NOARCHIVE">
-</head>
-<body>
-<div id="content" class="colM">
-    <h1><a href="javascript:history.back(-1)">
-        <返回
-    </a> 设备详情 | 编辑
-    </h1>
-    <div id="content-main">
-        <form action="/device/update/{{list.id}}" method="post" id="device_form" novalidate>
-            {%csrf_token%}
-            <div>
-                <fieldset class="module aligned ">
-                    <div class="form-row field-model">
-                        <div>
-                            <label for="id_model">品牌和型号:</label>
-                            <input type="text" name="model" value="{{list.model}}" class="vTextField" maxlength="50"
-                                   id="id_model">
-                        </div>
-                    </div>
-                    <div class="form-row field-brand">
-                        <div>
-                            <label for="id_brand">品牌:</label>
-                            <input type="text" name="brand" value="{{list.brand}}" class="vTextField" maxlength="10"
-                                   id="id_brand">
-                        </div>
-                    </div>
-                    <div class="form-row field-pic">
-                        <div>
-                            <label for="id_pic">图片:</label>
-                            <input type="text" name="pic" value="{{list.pic}}" class="vTextField" maxlength="100"
-                                   id="id_pic">
-                        </div>
-                    </div>
-                    <div class="form-row field-sn">
-                        <div>
-                            <label for="id_sn">序列号:</label>
-                            <input type="text" name="sn" value="{{list.sn}}" class="vTextField" maxlength="50" id="id_sn">
-                        </div>
-                    </div>
-                    <div class="form-row field-type">
-                        <div>
-                            <label class="required" for="id_type" style="width: 65px;">类别:</label>
-                            <div class="related-widget-wrapper">
-                                <select name="type" required id="id_type">
-                                    <option value="" {% if list.type == None %} selected={%endif%}>---------</option>
-                                    {%for type in sys%}
-                                    <option value="{{type.id}}" {% if type == list.type %} selected{%endif%}>{{type.typename}}</option>
-                                    {%endfor%}}
-                                </select>
-                            </div>
-                            <div>
-                                <label for="id_buytime" style="margin-left: 100px;width: 65px;">购置时间:</label>
-                                <input type="text" name="buytime" class="vDateField" size="10" id="id_buytime" value="{{list.buytime|date:"Y-m-d"}}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row field-memo">
-                        <div>
-                            <label for="id_memo">备注:</label>
-                            <input type="text" name="memo" value="d" class="vTextField" maxlength="200"
-                                   id="id_memo">
-                        </div>
-                    </div>
-                    <div class="form-row field-status">
-                        <div>
-                            <label for="id_status">状态:</label>
-                            <input type="text" name="status" value="0" class="vTextField" maxlength="1" id="id_status">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label style="width: 100px;">记录时间:</label>
-                         <label style="width: 200px;margin-left: 60px;">{{list.recordtime}}</label>
-                    </div>
-                </fieldset>
-                <div class="submit-row">
-                    <input type="submit" value="保存" class="default" name="_save">
-                    <p class="deletelink-box">
-                        <a href="/device/delete/{{list.id}}" class="deletelink" onClick="return confirm('确定删除?');">删除</a>
-                    </p>
-                </div>
-                <script type="text/javascript" id="django-admin-form-add-constants" src="/static/admin/js/change_form.js">
-                </script>
-                <script type="text/javascript" id="django-admin-prepopulated-fields-constants"
-                        src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
-                </script>
-            </div>
-        </form>
-    </div>
-</div>
-</body>
-</html>
+{% extends "addbase2.html" %}
+{% block title %}<a href="/device/">设备列表</a> {% endblock %}
+{% block title1 %}设备详情{% endblock %}
+{% block content %}
+   <table cellpadding="10" width="100%" style="line-height: 30px;">
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel" width="100">品牌型号:</td>
+         <td class="inputcontent" width="250">{{ device.model }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">序列号:</td>
+         <td class="inputcontent">{{ device.sn|default_if_none:'' }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">类别:</td>
+         <td class="inputcontent">{{ device.type }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">责任处室:</td>
+         <td class="inputcontent">{{ device.depid }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">责任人:</td>
+         <td class="inputcontent">{{ device.memid|default_if_none:'' }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">房间号:</td>
+         <td class="inputcontent">{{ device.room|default_if_none:'' }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">状态:</td>
+         <td class="inputcontent">{{ device.status }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">备注:</td>
+         <td class="inputcontent" colspan="2">{{ device.memo|default_if_none:'' }}</td>
+      </tr>
+   <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">更新时间:</td>
+         <td class="inputcontent" colspan="2">{{ device.updatetime }}</td>
+      </tr>
+   </table>
+   <br>
+   <div style="width:100%;text-align: center;">
+      <button type="button" class="btn btn-primary" style="min-width:100px;" onclick="history.back(-1);">返回</button>
+   </div>
+{% endblock %}

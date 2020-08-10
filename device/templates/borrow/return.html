@@ -1,0 +1,18 @@
+{% extends "addbase2.html" %}
+{% block title %}<a href="/admin/htgl/recordborrow/">借用列表</a> {% endblock %}
+{% block title1 %}借用归还{% endblock %}
+{% block actee %}
+   <form action="/borrow/return/{{ borrow.id }}" method="post">{% endblock %}
+{% block content %}
+   <table cellpadding="10" width="100%">
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel" width="100">归还时间</td>
+         <td class="inputcontent" width="250"><input type="date" class="form-control" name="rtime"  required></td>
+         <td></td>
+      </tr>
+   </table>
+   <br>
+   <div style="width:100%;text-align: center;">
+      <button type="submit" class="btn btn-primary" style="min-width:100px;">提交</button>
+   </div>
+{% endblock %}

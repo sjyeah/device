@@ -29,15 +29,31 @@ def borrowAdd(request):
       data = {'dlist': devices}
       return render(request, 'borrow/add.html', data)
 
+def borrowReturn(request,id):
+   obj = models.RecordBorrow.objects.get(id=id)
+   if request.method == "POST":
+      obj.etime=request.POST.get('rtime')
+      x=''
+      for d in obj.devices:
+         x+=d.name+','
+      obj.memo=x
+      obj.devices.clear()
+      obj.save()
+      redirect('/admin/htgl/recordborrow/')
+   else:
+      data = {'borrow': obj}
+      return render(request, 'borrow/return.html', data)
+
 
 def borrowList(request):
+   obj= models.department.objects.all().order_by('sort')
    if request.method == "GET":
       dlist = models.RecordBorrow.objects.all()
+      data = {'borrowlist': dlist, 'dep': obj}
    if request.method == "POST":
       req = request.POST
       dep = req.get('')
-   data = {'list': dlist}
-   return render(request, 'device/list.html', data)
+   return render(request, 'borrow/list.html', data)
 
 
 def borrowAudit(request):
@@ -69,24 +85,25 @@ def deviceList(request):
    obj = models.department.objects.all().order_by('sort')
    if request.method == "GET":
       dlist = models.Device.objects.filter(depid=obj[0])
-   elif request.method == "POST":
+      data = {'devicelist': dlist, 'dep': obj}
+   if request.method == "POST":
       if request.POST.get('dep') == '':
+         print('test2')
          dlist = models.Device.objects.all()
+         obj2 = ''
       else:
-         obj2=models.department.objects.get(id=request.POST.get('dep'))
-         dlist = models.Device.objects.filter(depid_id=request.POST.get('dep'))
-         data = {'devicelist': dlist, 'dep': obj, 'cur': obj2}
-         return render(request, 'device/list.html', data)
-   data = {'devicelist': dlist, 'dep': obj,'cur':request.POST.get('dep')}
+         obj2 = models.department.objects.get(id=request.POST.get('dep'))
+         dlist = models.Device.objects.filter(depid=obj2)
+      if request.POST.get('model') != '':
+         print('test')
+         dlist = dlist.filter(model__contains=request.POST.get('model'))
+      data = {'devicelist': dlist, 'dep': obj, 'cur': obj2, 'model': request.POST.get('model')}
    return render(request, 'device/list.html', data)
 
 
 def deviceDetail(request, id):
-   data = {}
-   dlist = models.Device.objects.get(id=id)
-   data['list'] = dlist
-   list2 = models.sys.objects.all()
-   data['sys'] = list2
+   obj = models.Device.objects.get(id=id)
+   data = {'device': obj}
    return render(request, 'device/detail.html', data)
 
 
@@ -96,16 +113,31 @@ def deviceDelete(request, id):
 
 
 def deviceEdit(request, id):
+   obj = models.Device.objects.get(id=id)
+   cur = obj.depid
+   dep = models.department.objects.all().order_by('sort')
    if request.method == "GET":
-      obj = models.Device.objects.get(id=id)
       type = models.sys.objects.filter(type='1')
       zt = models.sys.objects.filter(type='2')
-      dep = models.department.objects.all()
       mem = models.member.objects.filter(depid=obj.depid)
       data = {'type': type, 'zt': zt, 'dep': dep, 'device': obj, 'mem': mem}
       return render(request, 'device/edit.html', data)
-   elif request.method == "POST":
-      return redirect("/device/")
+   if request.method == "POST":
+      obj.model = request.POST.get('model')
+      obj.type = models.sys.objects.get(id=request.POST.get('type'))
+      obj.sn = request.POST.get('sn')
+      obj.memo = request.POST.get('memo')
+      obj.room = request.POST.get('room')
+      obj.depid = models.department.objects.get(id=request.POST.get('dep'))
+      obj.status = models.sys.objects.get(id=request.POST.get('zt'))
+      if request.POST.get('member') != '':
+         obj.memid = models.member.objects.get(id=request.POST.get('member'))
+      else:
+         obj.memid = None
+      obj.save()
+      dlist = models.Device.objects.filter(depid=cur)
+      data = {'devicelist': dlist, 'dep': dep, 'cur': cur}
+      return render(request, 'device/list.html', data)
 
 
 def deviceAdd(request):
@@ -116,6 +148,7 @@ def deviceAdd(request):
       # obj.brand = request.POST.get('brand')
       obj.sn = request.POST.get('sn')
       obj.memo = request.POST.get('memo')
+      obj.room = request.POST.get('room')
       obj.depid = models.department.objects.get(id=request.POST.get('dep'))
       if request.POST.get('member') != '':
          obj.memid = models.member.objects.get(id=request.POST.get('member'))
@@ -132,7 +165,7 @@ def deviceAdd(request):
 def memberList(request):
    if request.method == "POST":
       dlist = models.member.objects.filter(depid_id=request.POST.get('dep'))
-      result = ''
+      result = '<option value="">--------</option>'
       for d in dlist:
          result += '<option value="' + str(d.id) + '">' + d.name + '</option>'
       data = mark_safe(result)

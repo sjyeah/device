@@ -126,7 +126,7 @@ class Device(models.Model):
 class RecordBorrow(models.Model):
    userid = models.ForeignKey(member, to_field='dingid', db_column='userid', null=True, on_delete=models.PROTECT, verbose_name='申请人')
    depid = models.ForeignKey(department, db_column='depID', to_field='dingid', null=True, verbose_name='申请处室', on_delete=models.PROTECT)
-   devices = models.ManyToManyField(Device, verbose_name='借用设备')
+   devices = models.ManyToManyField(Device, verbose_name='借用设备',null=True,blank=True)
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
    reason = models.TextField(max_length=500, blank=True, null=True, verbose_name='借用原因及要求')
