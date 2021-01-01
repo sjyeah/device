@@ -1,0 +1,56 @@
+{% extends "addbase2.html" %}
+{% block title %}<a href="/borrow/">借用列表</a> {% endblock %}
+{% block title1 %}借用详情{% endblock %}
+{% block content %}
+   <table cellpadding="10" width="100%" style="line-height: 30px;">
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel" width="100">借用原因:</td>
+         <td class="inputcontent" style="max-width: 400px;">{{ d.reason }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">申请人:</td>
+         <td class="inputcontent">{{ d.depid|default_if_none:'' }} —— {{ d.userid|default_if_none:'' }}</td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">借用时间:</td>
+         <td class="inputcontent">{{ d.stime|default_if_none:'' }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">归还时间:</td>
+         <td class="inputcontent">{{ d.etime|default_if_none:'' }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">状态:</td>
+         <td class="inputcontent">{{ d.status }}
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">审批意见:</td>
+         <td class="inputcontent">{{ d.memo|default_if_none:'' }}</td>
+         <td></td>
+      </tr>
+   <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">更新时间:</td>
+         <td class="inputcontent" colspan="2">{{ d.updatetime }}</td>
+      </tr>
+   <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">申请时间:</td>
+         <td class="inputcontent" colspan="2">{{ d.recordtime }}</td>
+      </tr>
+   <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">相关设备:</td>
+         <td class="inputcontent" colspan="2">{% for c in d.devices.all %}{{ c.model }}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}</td>
+      </tr>
+   </table>
+   <br>
+   <div style="width:100%;text-align: center;">
+      <button type="button" class="btn btn-primary" style="min-width:100px;" onclick="history.back(-1);">返回</button>
+   </div>
+{% endblock %}

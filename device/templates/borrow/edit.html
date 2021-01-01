@@ -1,0 +1,102 @@
+{% extends "addbase2.html" %}
+{% block title %}<a href="/borrow/">借用列表</a> {% endblock %}
+{% block title1 %}编辑借用{% endblock %}
+{% block actee %}
+   <form action="/borrow/edit/{{ obj.id }}" method="post">{% endblock %}
+{% block content %}
+   <table cellpadding="10" width="100%">
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel" width="100">借用原因:</td>
+         <td class="inputcontent" width="300"><textarea cols="50" rows="5" class="vLargeTextField" name="reason" required>{{ obj.reason }}</textarea>
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">申请处室:</td>
+         <td class="inputcontent">
+            <select class="custom-select" name="dep" id="dep" onchange="get()" required>
+               <option value="0">--------</option>
+               {% for d in dep %}
+                  <option value="{{ d.id }}" {% if obj.depid == d %}selected{% endif %}>{{ d.depname }}</option>
+               {% endfor %}
+            </select>
+            <script type="text/javascript">
+                function get() {
+                    var obj = document.getElementById('member')
+                    var sel = document.getElementById('dep')
+                    var index = sel.selectedIndex; // 选中索引
+                    var value = sel.options[index].value
+                    $.ajax({
+                        url: '/member/get/',
+                        type: 'POST',
+                        headers: {
+                            "X-CSRFToken": '{{ csrf_token }}',
+                        },
+                        data: {'dep': value},
+                        success: function (data) {
+                            obj.innerHTML = data;
+                        },
+                        error: function (textStatus) {
+                            alert(textStatus)
+                        }
+                    })
+                }
+            </script>
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">申请人:</td>
+         <td class="inputcontent"><select class="custom-select" name="member" id="member">
+            {% for d in mem %}
+               <option value="{{ d.id }}" {% if obj.userid == d %}selected{% endif %}>{{ d.name }}</option>
+            {% endfor %}
+         </select>
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">借用时间:</td>
+         <td class="inputcontent">
+            <input type="date" name="stime" class="form-control" value="{{ obj.stime }}">
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">归还时间:</td>
+         <td class="inputcontent">
+            <input type="date" name="etime" class="form-control" value="{{ obj.etime }}">
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">状态:</td>
+         <td class="inputcontent">
+            <select class="custom-select" name="zt">
+               {% for d in sys %}
+                  <option value="{{ d.id }}" {% if d == obj.status %}selected{% endif %}>{{ d.codename }}</option>
+               {% endfor %}
+            </select>
+         </td>
+         <td></td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+         <td class="inputlabel">设备:</td>
+         <td colspan="2">
+            <ul>
+               {% for d in device %}
+                  <li style="display: block;float:left;width: 200px;line-height: 25px;">
+                     <input type="checkbox" name="device" value="{{ d.id }}"
+                            {% if d.status.id == 14 and d not in obj.devices.all %}disabled="disabled" {% endif %}
+                            {% if d in obj.devices.all %}checked {% endif %}><div style="display: inline-block;{% if d.status.id == 14 and d not in obj.devices.all %}color:gray;{% endif %}">{{ d.model }}</div>
+                  </li>
+               {% endfor %}</ul>
+         </td>
+         <td></td>
+      </tr>
+   </table>
+   <br>
+   <div style="width:100%;text-align: center;">
+      <button type="button" class="btn btn-primary" style="min-width:100px;" onclick="history.back(-1);">返回</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-primary" style="min-width:100px;">提交</button>
+   </div>
+{% endblock %}

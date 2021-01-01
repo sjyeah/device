@@ -14,7 +14,7 @@ class Cartridge(models.Model):
    class Meta:
       managed = True
       db_table = 'cartridge'
-      verbose_name = '硒鼓'
+      verbose_name = '耗材'
       verbose_name_plural = verbose_name
 
    def __str__(self):
@@ -103,8 +103,8 @@ class Device(models.Model):
    sn = models.CharField(max_length=50, blank=True, null=True, verbose_name='序列号')
    type = models.ForeignKey(sys, db_column='type', to_field='id', null=True, verbose_name='类别', limit_choices_to={'type': '1'},
                             on_delete=models.PROTECT)
-   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True,blank=True, verbose_name='责任处室', on_delete=models.PROTECT)
-   memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True,blank=True, verbose_name='责任人', on_delete=models.PROTECT)
+   depid = models.ForeignKey(department, db_column='depID', to_field='id', null=True, blank=True, verbose_name='责任处室', on_delete=models.PROTECT)
+   memid = models.ForeignKey(member, db_column='memID', to_field='id', null=True, blank=True, verbose_name='责任人', on_delete=models.PROTECT)
    room = models.CharField(max_length=20, blank=True, null=True, verbose_name='房间号')
    buytime = models.DateField(db_column='buyTime', blank=True, null=True, verbose_name='购置时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
@@ -126,13 +126,13 @@ class Device(models.Model):
 class RecordBorrow(models.Model):
    userid = models.ForeignKey(member, to_field='dingid', db_column='userid', null=True, on_delete=models.PROTECT, verbose_name='申请人')
    depid = models.ForeignKey(department, db_column='depID', to_field='dingid', null=True, verbose_name='申请处室', on_delete=models.PROTECT)
-   devices = models.ManyToManyField(Device, verbose_name='借用设备',null=True,blank=True)
+   devices = models.ManyToManyField(Device, verbose_name='借用设备')
    etime = models.DateField(blank=True, null=True, verbose_name='归还时间')
    stime = models.DateField(blank=True, null=True, verbose_name='借用时间')
    reason = models.TextField(max_length=500, blank=True, null=True, verbose_name='借用原因及要求')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
    status = models.ForeignKey(sys, db_column='status', blank=True, null=True, related_name='jyzt', to_field='id', limit_choices_to={'type': '3'},
-                              verbose_name='状态', on_delete=models.PROTECT)
+                              verbose_name='状态', default=15, on_delete=models.PROTECT)
    recordtime = models.DateTimeField(auto_now_add=True, verbose_name='生成时间', null=True, editable=False)
    updatetime = models.DateTimeField(auto_now=True, verbose_name='更新时间', null=True, editable=False)
 
@@ -142,17 +142,16 @@ class RecordBorrow(models.Model):
       verbose_name = '设备借用'
       verbose_name_plural = verbose_name
 
-#硒鼓申领
+
+# 硒鼓申领
 class RecordApply(models.Model):
    userid = models.CharField(max_length=20, blank=True, null=True)
    username = models.CharField(max_length=20, blank=True, null=True, verbose_name='申领人')
-   deptid = models.CharField(db_column='deptID', max_length=20, blank=True,
-                             null=True)  # Field name made lowercase.
+   deptid = models.CharField(db_column='deptID', max_length=20, blank=True,null=True)
    department = models.CharField(max_length=20, blank=True, null=True, verbose_name='申领部门')
    recordtime = models.DateTimeField(blank=True, null=True, verbose_name='申领时间')
    amount = models.IntegerField(blank=True, null=True, verbose_name='数量')
-   crid = models.ForeignKey(Cartridge, db_column='crID', to_field='id', null=True, on_delete=models.PROTECT,
-                            verbose_name='申领耗材')  # Field name made lowercase.
+   crid = models.ForeignKey(Cartridge, db_column='crID', to_field='id', null=True, on_delete=models.PROTECT,verbose_name='申领耗材')
    ctime = models.DateTimeField(blank=True, null=True, verbose_name='确认时间')
    memo = models.CharField(max_length=200, blank=True, null=True, verbose_name='备注')
 
@@ -219,12 +218,15 @@ class ecs(models.Model):
 
 
 class xuqiu(models.Model):
-   title = models.ForeignKey(sys, db_column='title',related_name='r2', to_field='id', limit_choices_to={'type': '7'}, verbose_name='模块', on_delete=models.PROTECT)
+   title = models.ForeignKey(sys, db_column='title', related_name='r2', to_field='id', limit_choices_to={'type': '7'}, verbose_name='模块',
+                             on_delete=models.PROTECT)
    content = models.TextField(max_length=500, blank=True, null=True, verbose_name='描述')
-   feedbacktime = models.DateField(verbose_name='反馈时间',null=True,blank=True)
-   plantime = models.DateField(verbose_name='计划完成时间',null=True,blank=True)
-   manager = models.ForeignKey(sys, db_column='manager',null=True,blank=True, related_name='r3',to_field='id', limit_choices_to={'type': '5'}, verbose_name='负责人', on_delete=models.PROTECT)
-   zt = models.ForeignKey(sys, db_column='zt',related_name='r1',null=True,blank=True, to_field='id', limit_choices_to={'type': '6'}, verbose_name='状态', on_delete=models.PROTECT)
+   feedbacktime = models.DateField(verbose_name='反馈时间', null=True, blank=True)
+   plantime = models.DateField(verbose_name='计划完成时间', null=True, blank=True)
+   manager = models.ForeignKey(sys, db_column='manager', null=True, blank=True, related_name='r3', to_field='id', limit_choices_to={'type': '5'},
+                               verbose_name='负责人', on_delete=models.PROTECT)
+   zt = models.ForeignKey(sys, db_column='zt', related_name='r1', null=True, blank=True, to_field='id', limit_choices_to={'type': '6'},
+                          verbose_name='状态', on_delete=models.PROTECT)
    memo = models.IntegerField(null=False, blank=False, choices=((0, '未完成'), (1, '完成')), default=0, verbose_name='项目经理测试')
    recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
    updatetime = models.DateTimeField(blank=True, null=True, auto_now=True)
@@ -238,14 +240,52 @@ class xuqiu(models.Model):
       sorted('sort')
 
 
-#region 临时任务
+class diary(models.Model):
+   title = models.CharField(max_length=100, blank=False, verbose_name='标题')
+   content = models.TextField(max_length=1000, blank=False, verbose_name='内容')
+   recordtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+   updatetime = models.DateTimeField(blank=True, null=True, auto_now=True)
+   sort = models.IntegerField(default=99, verbose_name='排序')
+
+   class Meta:
+      managed = True
+      db_table = 'diary'
+      verbose_name = '大事记'
+      verbose_name_plural = verbose_name
+      sorted('sort')
+
+
+# 项目管理
+class project(models.Model):
+   title = models.CharField(max_length=100, blank=False,null=False,verbose_name='项目名称')
+   code = models.CharField(max_length=20, blank=True, null=True, verbose_name='项目编号')
+   budget = models.CharField(max_length=20, blank=True, null=True,verbose_name='预算')
+   dep1= models.CharField(max_length=20, blank=True, null=True, verbose_name='负责部门')
+   dep2= models.CharField(max_length=50, blank=True, null=True, verbose_name='承建方')
+   contact1 = models.CharField(max_length=50, blank=True, null=True, verbose_name='项目负责人')
+   contact2 = models.CharField(max_length=50, blank=True, null=True, verbose_name='承建方负责人')
+   supervisor = models.CharField(max_length=100, blank=True, null=True, verbose_name='监理')
+   time1 = models.DateField(blank=True, null=True, verbose_name='申报时间')
+   time2 = models.DateField(blank=True, null=True, verbose_name='建设时间')
+   time3 = models.DateField(blank=True, null=True, verbose_name='验收时间')
+   file1=models.FileField(blank=True, null=True,upload_to='',verbose_name='建设方案')
+   memo = models.CharField(max_length=500, blank=True, null=True, verbose_name='备注')
+
+   class Meta:
+      managed = True
+      db_table = 'project'
+      verbose_name = '项目管理'
+      verbose_name_plural = verbose_name
+
+
+# region 临时任务
 class people(models.Model):
-   name=models.CharField(max_length=10, verbose_name='姓名')
-   department=models.CharField(max_length=10,verbose_name='单位')
-   duty=models.CharField(max_length=10,verbose_name='职务')
-   tel=models.CharField(max_length=11,verbose_name='电话')
-   zt=models.IntegerField(choices=((1,'是'),(2,'否')),default=0, verbose_name='签到')
-   sort=models.IntegerField(default=99)
+   name = models.CharField(max_length=10, verbose_name='姓名')
+   department = models.CharField(max_length=10, verbose_name='单位')
+   duty = models.CharField(max_length=10, verbose_name='职务')
+   tel = models.CharField(max_length=11, verbose_name='电话')
+   zt = models.IntegerField(choices=((1, '是'), (2, '否')), default=0, verbose_name='签到')
+   sort = models.IntegerField(default=99)
 
    class Meta:
       managed = True
@@ -257,19 +297,22 @@ class people(models.Model):
    def __str__(self):
       return self.name
 
+
 class advice(models.Model):
-   name = models.CharField(max_length=20,null=True,blank=True, verbose_name='姓名')
-   department = models.CharField(max_length=20, null=True,blank=True,verbose_name='单位')
-   userid=models.CharField(max_length=50,null=True,blank=True,verbose_name='用户id')
+   name = models.CharField(max_length=20, null=True, blank=True, verbose_name='姓名')
+   department = models.CharField(max_length=20, null=True, blank=True, verbose_name='单位')
+   userid = models.CharField(max_length=50, null=True, blank=True, verbose_name='用户id')
+   title = models.CharField(max_length=20, verbose_name='标题')
    content = models.TextField(max_length=500, verbose_name='内容')
-   pic=models.CharField(max_length=30,null=True,blank=True,verbose_name='图片')
-   zt = models.IntegerField(choices=((0,'未确认'),(1, '是'), (2, '否')), default=0, verbose_name='状态')
-   recordtime=models.DateTimeField(auto_now_add=True)
+   pic = models.CharField(max_length=30, null=True, blank=True, verbose_name='图片')
+   zt = models.IntegerField(choices=((0, '未确认'), (1, '是'), (2, '否')), default=0, verbose_name='状态')
+   recordtime = models.DateTimeField(auto_now_add=True)
+
    class Meta:
       managed = True
       db_table = 'advice'
       verbose_name = '意见需求'
       verbose_name_plural = verbose_name
-      #sorted('sort')
+      # sorted('sort')
 
-#endregion
+# endregion

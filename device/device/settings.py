@@ -16,6 +16,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+MEDIA_URL = '/upload/'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -25,11 +28,11 @@ SECRET_KEY = 'w+b8c&v$hx3$o1neh^1fcjdp39806nc1+!pw1d8m5w%b3o*r%i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.hzdyzj.cn','127.0.0.1']
+ALLOWED_HOSTS = ['api.hzdyzj.cn','127.0.0.1','183.134.200.5']
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 USE_L10N = False
-DATE_FORMAT = 'YYYY-MM-dd'
+DATE_FORMAT = 'Y-m-d'
 DATETIME_FORMAT = 'Y-m-d H:i:s'
 
 
@@ -121,7 +124,6 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_L10N = True
 
 USE_TZ = False
 

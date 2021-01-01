@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>设备管理</title>
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
+   <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+</head>
+<body>
+<div style="width: 100%;position: relative;height: 50px;background: #417690;color: #ffc;line-height: 50px;" >
+   <div style="position:absolute;font-weight: 300;font-size: 24px;color: #f5dd5d;text-indent: 20px;">设备管理系统</div>
+   <div style="position:absolute;right: 100px;"><strong>当前用户: {{ username }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" style="color: #fff;">返回首页</a> /
+      <a href="/admin/password_change/" style="color: #fff;">修改密码</a> /<a href="/logout/" style="color: #fff;">注销</a>
+   </div>
+</div>
+<div style="width: 100%;position: relative;">
+   <div style="width: 250px;">
+      <table width="100%" cellpadding="0" cellspacing="0">
+         <tr>
+            <td class="app-htgl module" width="250">
+               <table width="100%">
+                  <caption>
+                     项目管理
+                  </caption>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/advice/" target="contentframe">需求建议</a></th>
+                     <td><a href="/admin/htgl/advice/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/diary/" target="contentframe">大事记</a></th>
+                     <td><a href="/admin/htgl/diary/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr style="height: 20px;"></tr>
+               </table>
+               <table width="100%">
+                  <caption>
+                     设备管理
+                  </caption>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/ecs/" target="contentframe">服务器</a></th>
+                     <td><a href="/admin/htgl/ecs/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/device/" target="contentframe">设备列表</a></th>
+                     <td><a href="/device/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/borrow/" target="contentframe">设备借用</a></th>
+                     <td><a href="/borrow/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/recordborrow" target="contentframe">借用审批</a></th>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/project/" target="contentframe">项目管理</a></th>
+                     <td></td>
+                  </tr>
+                  <tr style="height: 20px;"></tr>
+               </table>
+               <table width="100%">
+                  <caption>
+                     耗材管理
+                  </caption>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/cartridge/" target="contentframe">耗材列表</a></th>
+                     <td><a href="/admin/htgl/cartridge/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/recordapply/" target="contentframe">领用记录</a></th>
+                     <td><a href="/admin/htgl/recordapply/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/printertype/" target="contentframe">打印机型号</a></th>
+                     <td><a href="/admin/htgl/printertype/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr style="height: 20px;"></tr>
+               </table>
+               <table width="100%">
+                  <caption>
+                     系统配置
+                  </caption>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/member/" target="contentframe">人员列表</a></th>
+                     <td><a href="/admin/htgl/member/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/department/" target="contentframe">处室列表</a></th>
+                     <td><a href="/admin/htgl/department/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/sys/" target="contentframe">代码字典</a></th>
+                     <td><a href="/admin/htgl/sys/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/htgl/ecsstatus/" target="contentframe">服务器状态</a></th>
+                     <td><a href="/admin/htgl/ecsstatus/add/" class="addlink" target="contentframe">增加</a></td>
+                  </tr>
+                  <tr>
+                     <th scope="row"><a href="/admin/" target="contentframe">系统后台</a></th>
+                     <td></td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </div>
+   <div style="position: absolute;left: 250px;top:0;" id="div1">
+      <iframe name="contentframe" id="contentframe" width="100%" frameborder="0" onload="changeFrameHeight()" src="/admin/htgl/ecs/" style="padding: 0;margin-top: 1px;"></iframe>
+   </div>
+</div>
+<script type="text/javascript">
+    function changeFrameHeight() {
+        var ifm = document.getElementById("contentframe");
+        ifm.height = document.documentElement.clientHeight - 60;
+        ifm.width = document.documentElement.clientWidth - 250;
+        var div = document.getElementById("div1");
+        div.width = document.documentElement.clientWidth-250;
+    }
+
+    window.onresize = function () {
+        changeFrameHeight();
+    }
+</script>
+</body>
+</html>

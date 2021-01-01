@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}项目列表{% endblock %}
+{% block url %}/admin/htgl/project/add/{% endblock %}
+{% block link %}新增 项目{% endblock %}
+{% block title1 %}
+   <form action="/device/" method="post" id="myform">
+      {% csrf_token %}
+      <table>
+         <tr>
+            <td><select class="custom-select" name="dep" style="width: 300px;" onchange="submitForm();">
+               {% for d in dep %}
+                  <option value="{{ d.id }}" {% if d == cur %}selected{% endif %}>{{ d.depname }}</option>
+               {% endfor %}
+               <option value="" {% if cur == '' %}selected{% endif %}>全部处室</option>
+            </select></td>
+            <td><input type="text" class="form-control" name="model" value="{{ model|default_if_none:'' }}" placeholder="品牌型号查询"></td>
+            <td>
+               <button type="submit" class="btn btn-primary" style="width: 70px;">查询</button>
+            </td>
+         </tr>
+      </table>
+
+
+   </form>
+   <script type="text/javascript">
+       function submitForm() {
+           document.forms["myform"].submit();
+       }
+   </script>
+{% endblock %}
+{% block content %}
+   <table class="table table-striped">
+      <thead>
+      <tr>
+         <th>
+            项目名称
+         </th>
+         <th>
+            责任处室
+         </th>
+         <th>
+            责任人
+         </th>
+         <th>
+            申报时间
+         </th>
+         <th>
+            状态
+         </th>
+         <th>
+            建设方案
+         </th>
+         <th style="background-color: white;width: 120px;">
+            操作
+         </th>
+      </tr>
+      </thead>
+      {% for d in devicelist %}
+         <tr>
+            <td><a href="/device/{{ d.id }}">{{ d.model }}</a></td>
+            <td>{{ d.depid }}</td>
+            <td>{{ d.memid|default_if_none:'' }}</td>
+            <td>{{ d.room|default_if_none:'' }}</td>
+            <td>{{ d.status.codename|default_if_none:'' }}</td>
+            <td>{{ d.memo|default_if_none:'' }}</td>
+            <td>
+               <a href="/device/edit/{{ d.id }}" class="btn btn-primary" style="width: 40px;height: 20px;font-size: 13px;padding: 0;color: white;">
+                  编辑
+               </a>&nbsp;&nbsp<a href="/device/delete/{{ d.id }}" class="btn btn-danger" onclick="confirm('确认删除吗？')"
+                                 style="width: 40px;height: 20px;font-size: 13px;padding: 0;color: white;">
+               删除
+            </a>
+            </td>
+         </tr>
+      {% endfor %}
+      <tr>
+         <td colspan="7" style="font-weight: bold;">{{ devicelist.count }}条记录</td>
+      </tr>
+   </table>
+{% endblock %}

@@ -828,14 +828,6 @@ table#change-history tbody th {
 /* HEADER */
 
 #header {
-    width: auto;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 40px;
-    background: #417690;
-    color: #ffc;
     overflow: hidden;
 }
 
@@ -853,7 +845,6 @@ table#change-history tbody th {
 
 #branding h1 {
     padding: 0;
-    margin: 0 20px 0 0;
     font-weight: 300;
     font-size: 24px;
     color: #f5dd5d;
@@ -878,7 +869,6 @@ table#change-history tbody th {
 #user-tools {
     float: right;
     padding: 0;
-    margin: 0 0 0 20px;
     font-weight: 300;
     font-size: 11px;
     letter-spacing: 0.5px;

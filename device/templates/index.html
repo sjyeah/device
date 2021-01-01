@@ -20,7 +20,8 @@
    </tr>
    <tr>
       <td colspan="2" style="height: 100%;">
-         <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: -5px;">
+         <ba-sidebar></ba-sidebar>
+         <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
                <td class="app-htgl module" width="250">
                   <table width="100%">
@@ -30,6 +31,10 @@
                      <tr>
                         <th scope="row"><a href="/admin/htgl/advice/" target="contentframe">需求建议</a></th>
                         <td><a href="/admin/htgl/advice/add/" class="addlink" target="contentframe">增加</a></td>
+                     </tr>
+                     <tr>
+                        <th scope="row"><a href="/admin/htgl/diary/" target="contentframe">大事记</a></th>
+                        <td><a href="/admin/htgl/diary/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr style="height: 20px;"></tr>
                   </table>
@@ -46,15 +51,15 @@
                         <td><a href="/device/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr>
-                        <th scope="row"><a href="/admin/htgl/recordborrow/" target="contentframe">设备借用</a></th>
-                        <td></td>
-                     </tr>
-                     <tr>
                         <th scope="row"><a href="/borrow/" target="contentframe">设备借用</a></th>
                         <td><a href="/borrow/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr>
-                        <th scope="row"><a href="/device/" target="contentframe">借用审批</a></th>
+                        <th scope="row"><a href="/admin/htgl/recordborrow" target="contentframe">借用审批</a></th>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th scope="row"><a href="/project/" target="contentframe">项目管理</a></th>
                         <td></td>
                      </tr>
                      <tr style="height: 20px;"></tr>
@@ -64,11 +69,11 @@
                         耗材管理
                      </caption>
                      <tr>
-                        <th scope="row"><a href="/admin/htgl/cartridge/" target="contentframe">硒鼓列表</a></th>
+                        <th scope="row"><a href="/admin/htgl/cartridge/" target="contentframe">耗材列表</a></th>
                         <td><a href="/admin/htgl/cartridge/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr>
-                        <th scope="row"><a href="/admin/htgl/recordapply/" target="contentframe">硒鼓领用记录</a></th>
+                        <th scope="row"><a href="/admin/htgl/recordapply/" target="contentframe">领用记录</a></th>
                         <td><a href="/admin/htgl/recordapply/add/" class="addlink" target="contentframe">增加</a></td>
                      </tr>
                      <tr>
@@ -123,7 +128,9 @@
         changeFrameHeight();
     }
 </script>
+<script src="/static/js/vendor-67079fe425.js"></script>
 
+<script src="/static/js/app-de3adf79ad.js"></script>
 <br class="clear">
 </div>
 <!-- END Content -->
